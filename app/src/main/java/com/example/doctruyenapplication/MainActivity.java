@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private static final Map<Integer, Class<? extends Fragment>> fragmentMap = new HashMap<>();
 
     static {
-        fragmentMap.put(R.id.navigation_tusach, BookshelfFragment.class);
+        fragmentMap.put(R.id.navigation_tusach, BookselfFragment.class);
         fragmentMap.put(R.id.navigation_thuvien, LibraryFragment.class);
         fragmentMap.put(R.id.navigation_taikhoan, AccountFragment.class);
     }
