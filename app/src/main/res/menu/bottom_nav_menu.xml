@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_tusach"
+        android:icon="@drawable/bookself"
+        android:title="Tủ sách" />
+
+    <item
+        android:id="@+id/navigation_thuvien"
+        android:icon="@drawable/library"
+        android:title="Thư viện" />
+
+    <item
+        android:id="@+id/navigation_taikhoan"
+        android:icon="@drawable/profile"
+        android:title="Tài khoản" />
+
+</menu>
