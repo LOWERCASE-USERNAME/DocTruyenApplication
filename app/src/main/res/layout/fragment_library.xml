@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nested_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -77,68 +83,18 @@
             android:layout_centerVertical="true" />
 
     </RelativeLayout>
-    <GridLayout
-        android:id="@+id/new_stories_grid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="3"
-        android:rowCount="2"
-        android:padding="8dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <GridView
+            android:id="@+id/new_stories_grid"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp">
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="120dp"
-                android:src="@drawable/tptk2" />
+            android:columnWidth="100dp"
+            android:numColumns="3"
+            android:verticalSpacing="8dp"
+            android:horizontalSpacing="8dp"
+            android:stretchMode="columnWidth"
+            android:padding="8dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tên truyện"
-                android:gravity="center"
-                android:textSize="14sp" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp">
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="120dp"
-                android:src="@drawable/tptk2" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tên truyện"
-                android:gravity="center"
-                android:textSize="14sp" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp">
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="120dp"
-                android:src="@drawable/tptk2" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tên truyện"
-                android:gravity="center"
-                android:textSize="14sp" />
-        </LinearLayout>
-        <!-- Repeat for other stories -->
-    </GridLayout>
-    <RelativeLayout
+        <RelativeLayout
         android:id="@+id/best_stories_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -315,3 +271,4 @@
         <!-- Repeat for other stories -->
     </GridLayout>
 </LinearLayout>
+</androidx.core.widget.NestedScrollView>
