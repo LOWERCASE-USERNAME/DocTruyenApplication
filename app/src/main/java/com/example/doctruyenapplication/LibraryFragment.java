@@ -13,6 +13,7 @@ public class LibraryFragment extends Fragment {
 
     private ImageButton searchButton;
     private TextView viewMoreButton;
+    private TextView chapterButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,6 +37,25 @@ public class LibraryFragment extends Fragment {
             public void onClick(View v) {
                 // Navigate to MoreStoriesFragment
                 openFragment(new MoreStoriesFragment());
+            }
+        });
+
+        // Initialize chapter button and set click listener
+        chapterButton = view.findViewById(R.id.chapter_button);
+        chapterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create a bundle with chapter data
+                Bundle bundle = new Bundle();
+                bundle.putString("chapter_title", "Chapter 1: The Beginning");
+                bundle.putString("chapter_content", "This is the content of Chapter 1...");
+
+                // Create the ChapterFragment and pass the bundle
+                ChapterFragment chapterFragment = new ChapterFragment();
+                chapterFragment.setArguments(bundle);
+
+                // Open the ChapterFragment
+                openFragment(chapterFragment);
             }
         });
 
