@@ -9,57 +9,56 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class LibraryFragment extends Fragment {
 
     private ImageButton searchButton;
     private TextView viewMoreButton;
-    private TextView chapterButton;
+    private TextView chapterButton1, chapterButton2, chapterButton3; // Declare these buttons
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library, container, false);
 
+        // Lấy danh sách chương từ ChapterData
+        List<ChapterData.Chapter> chapters = ChapterData.getChapters();
+
+        // Liên kết nút với các chương truyện
+        chapterButton1 = view.findViewById(R.id.chapter_button_1); // Initialize chapterButton1
+        chapterButton1.setText(chapters.get(0).getTitle());
+        chapterButton1.setOnClickListener(v -> openChapterFragment(chapters.get(0)));
+
+        chapterButton2 = view.findViewById(R.id.chapter_button_2); // Initialize chapterButton2
+        chapterButton2.setText(chapters.get(1).getTitle());
+        chapterButton2.setOnClickListener(v -> openChapterFragment(chapters.get(1)));
+
+        chapterButton3 = view.findViewById(R.id.chapter_button_3); // Initialize chapterButton3
+        chapterButton3.setText(chapters.get(2).getTitle());
+        chapterButton3.setOnClickListener(v -> openChapterFragment(chapters.get(2)));
+
         // Initialize search button and set click listener
         searchButton = view.findViewById(R.id.search_button);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Navigate to SearchFragment
-                openFragment(new SearchFragment());
-            }
-        });
+        searchButton.setOnClickListener(v -> openFragment(new SearchFragment()));
 
         // Initialize view more button and set click listener
         viewMoreButton = view.findViewById(R.id.view_more_button);
-        viewMoreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Navigate to MoreStoriesFragment
-                openFragment(new MoreStoriesFragment());
-            }
-        });
-
-        // Initialize chapter button and set click listener
-        chapterButton = view.findViewById(R.id.chapter_button);
-        chapterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Create a bundle with chapter data
-                Bundle bundle = new Bundle();
-                bundle.putString("chapter_title", "Chapter 1: The Beginning");
-                bundle.putString("chapter_content", "This is the content of Chapter 1...");
-
-                // Create the ChapterFragment and pass the bundle
-                ChapterFragment chapterFragment = new ChapterFragment();
-                chapterFragment.setArguments(bundle);
-
-                // Open the ChapterFragment
-                openFragment(chapterFragment);
-            }
-        });
+        viewMoreButton.setOnClickListener(v -> openFragment(new MoreStoriesFragment()));
 
         return view;
+    }
+
+    // Method to open a chapter fragment with chapter data
+    private void openChapterFragment(ChapterData.Chapter chapter) {
+        Bundle bundle = new Bundle();
+        bundle.putString("chapter_title", chapter.getTitle());
+        bundle.putString("chapter_content", chapter.getContent());
+
+        ChapterFragment chapterFragment = new ChapterFragment();
+        chapterFragment.setArguments(bundle);
+
+        openFragment(chapterFragment);
     }
 
     // Method to open a new fragment and replace the current one
