@@ -15,7 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
-            android:elevation="4dp">
+            android:elevation="4dp"
+            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <ImageButton
                 android:id="@+id/menu_button"
@@ -25,7 +27,6 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Menu"
                 android:src="@drawable/menu" />
-
 
             <TextView
                 android:id="@+id/toolbar_title"
@@ -131,7 +132,8 @@
             android:numColumns="3"
             android:padding="8dp"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="8dp" />
+            android:verticalSpacing="8dp"
+            />
 
         <RelativeLayout
             android:id="@+id/award_stories_section"
