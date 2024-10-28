@@ -13,6 +13,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Button;
 
+import com.example.doctruyenapplication.object.Book;
+
 public class ChapterDetailFragment extends Fragment {
 
     private TextView titleTextView;
@@ -28,6 +30,31 @@ public class ChapterDetailFragment extends Fragment {
     private Button readNowButton;
     private Button followButton;
     private Button storyInfoButton;
+
+    private static final String ARG_BOOK_TITLE = "book_title";
+    private static final String ARG_BOOK_CHAPTER = "book_chapter";
+
+    private String bookTitle;
+    private String bookChapter;
+
+    public static ChapterDetailFragment newInstance(String title, String chapter) {
+        ChapterDetailFragment fragment = new ChapterDetailFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_BOOK_TITLE, title);
+        args.putString(ARG_BOOK_CHAPTER, chapter);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            bookTitle = getArguments().getString(ARG_BOOK_TITLE);
+            bookChapter = getArguments().getString(ARG_BOOK_CHAPTER);
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
