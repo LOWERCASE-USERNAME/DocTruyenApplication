@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/story_type_1"
+        android:title="TU TIÊN" />
+    <item
+        android:id="@+id/story_type_2"
+        android:title="HUYỀN HUYỄN" />
+    <item
+        android:id="@+id/story_type_3"
+        android:title="CHUYỂN SINH" />
+    <item
+        android:id="@+id/story_type_4"
+        android:title="HÀI HƯỚC" />
+    <item
+        android:id="@+id/story_type_5"
+        android:title="NGÔN TÌNH" />
+    <item
+        android:id="@+id/story_type_6"
+        android:title="KINH DỊ" />
+</menu>
