@@ -36,7 +36,7 @@ public class ChapterData {
                 "- Liệu anh có thể gặp lại em được không?\n" +
                 "- um.. cũng được. Mà em không thường xuyên online đâu. Có duyên thì mình gặp lại.\n" +
                 "- Seya!\n" +
-                "- Seya, too : )"));
+                "- Seya, too : )", "Nguyen Nhat Anh"));
         chapters.add(new Chapter("Chương 2", "Từ khi gặp em tôi bắt đầu chăm online hơn. Nhưng quả đúng như lời em nói, không phải đêm nào cũng thấy nick em sáng. Giờ giấc của em cũng thật thất thường, có khi 8-9h tối, có khi lại 2-3 giờ đêm. Tôi muốn đợi để được gặp lại em nhưng thường bị lệch giờ. Sáng sớm ngủ dậy mở điện thoại thấy tin nhắn của em, tôi không giấu nổi vẻ tiếc nuối. Sao em online muộn thế nhỉ? Làm gì mà 2h sáng mới mò lên mạng? Tôi cũng có tiếng là hay thức khuya nhưng chỉ đến 1-2h giờ sáng là đã lăn ra ngủ rồi. Vậy nên không phải lúc nào chúng tôi cũng được trò chuyện cùng nhau.\n" +
                 "Những lần gặp đầu chúng tôi chỉ chat sex với nhau. Nhưng dần dần nói chuyện nhiều hơn, những câu chuyện bên ngoài chủ đề tình dục. Tôi biết được em lớn hơn tôi 1 tuổi, đang là sinh viên năm cuối của 1 trường đại học ở cùng thành phố với tôi. Khi tôi nói mình kém tuổi em thì em bảo không sao cả, chẳng cần phải thay đổi cách xưng hô của chúng tôi. Vậy nên tôi vẫn gọi em là em. Chúng tôi chia sẻ với nhau về âm nhạc, phim ảnh, cả những ý tưởng cho việc đi du lịch cùng nhau, hỏi thăm nhau về việc học hành... và chắc chắn thứ nói nhiều nhất là chủ đề tình dục. Việc chat sex về bản chất chỉ là thỏa mãn trí tưởng tượng của chính mình mà thôi, vậy nên em không coi nó là xấu. Em nói bên trong em có ham muốn rất mạnh mẽ về tình dục, nhưng chẳng thế thỏa mãn được ở thế giới thực nên em tìm lên đây. Ở thế giới ảo này em gặp nhiều người, nhưng họ không đem lại cho em cảm giác như tôi mang lại. Tôi hỏi cảm giác đó là như thế nào thì em bảo không biết rõ. Có lẽ chỉ là sự hiểu nhau và không cần phải cố gắng tưởng tượng, chỉ cần thả lỏng người và tận hưởng mà thôi. Những tin nhắn tôi gửi đến rất đúng lúc và đúng ý em, vậy nên em chỉ cần đón nhận nó chứ không cần phải đòi hỏi hay chờ đợi. Tôi cũng hiểu cảm giác đó, bởi nó tương tự như những gì em đem lại cho tôi.\n" +
                 "---\n" +
@@ -90,7 +90,7 @@ public class ChapterData {
                 "- Ngoan.. lại đây với ông chủ đi nào...\n" +
                 "---\n" +
                 "(to be continued)\n" +
-                "Hết phần 2"));
+                "Hết phần 2", "Nguyen Nhat Anh"));
         chapters.add(new Chapter("Chương 3", "Thoát khỏi thế giới ảo, tôi vẫn không tin vào sự thật rằng chỉ 2 ngày nữa thôi, khoảng gần 60 tiếng đồng hồ nữa thôi, là tôi và em sẽ gặp nhau ngoài đời thực. Trong lòng tôi trào dâng một niềm sung sướng xen lẫn lo lắng. Gặp rồi thì sẽ nói chuyện với nhau như thế nào đây? Lần đầu tiên tôi dám bước từ thế giới ảo ra ngoài thế giới thực. Những tưởng đây vốn là hai thế giới riêng biệt, với hai nhân cách riêng biệt của tôi, vậy mà giờ đây tôi đã phá lệ. Không biết em có thế không? Không biết em có cảm giác giống như tôi không? Cảm giác ấy khiến tôi thao thức chẳng ngủ được. Tôi chưa muốn ngủ, nhưng em nói tôi phải ngủ đi để giữ sức khỏe. Em không muốn gặp 1 con gấu trúc đâu. Vậy nên tôi đành chào tạm biệt em lúc 2:30. Tôi thao thức, xoay người đủ kiểu vẫn không tài nào bước vào giấc ngủ được. Tôi thử online dưới chế độ ẩn nick xem em có còn trên mạng không. Quả thực nick em vẫn sáng. Em cũng không ngủ sao? Em kêu tôi đi ngủ nhưng em lại chẳng ngủ. Đừng bảo em muốn hóa trang thành gấu trúc khi gặp tôi đấy nhé...\n" +
                 "Hai ngày tiếp theo tôi như người trên mây. Tới lớp tôi cứ thẩn thơ nghĩ về em, tưởng tượng ra lúc gặp em sẽ thế nào, chào em ra sao, rồi tôi sẽ mặc đồ gì, em mặc gì, son môi em màu gì... những thứ ấy lấp đầy đầu óc tôi khiến tôi chẳng thể nào học được gì. Sao thời gian trôi chậm thế nhỉ? Chẳng giống như lúc nói chuyện với em. Cảm giác từ 22h giờ tới 2h sáng sao mà nhanh thế, còn từ 8h sáng tới 12h cứ như cả thế kỷ vậy.\n" +
                 "- Quân ơi thứ sáu này cậu có rảnh không? \n" +
@@ -190,7 +190,7 @@ public class ChapterData {
                 "Tôi không tin vào tai mình nữa. Đó có phải là lời đồng ý không nhỉ? Tôi đã hứa gì đâu? Nhưng mà em tiến về phía tôi, ngồi xuống bên cạnh tôi, rồi chầm chậm, em ngả đầu vào vai tôi. Một tay tôi đưa ra sau gáy em, ôm lấy bờ vai em, tay kia tôi nắm lấy bàn tay em. Hai người cứ thế im lặng không nói, chỉ ngồi sát lại. Trong ánh sáng lờ mờ của quán trà hoa, lần đầu tôi được cảm nhận hơi ấm từ cơ thể em, không còn là trong trí tưởng tượng nữa, mà đây là thật. Tôi hôn nhẹ lên mái tóc em. Nó thật thơm, thơm hơn trà hoa cúc nữa...\n" +
                 "---\n" +
                 "(to be continued)\n" +
-                "Hết phần 3"));
+                "Hết phần 3", "Nguyen Nhat Anh"));
 
         return chapters;
     }
@@ -198,10 +198,12 @@ public class ChapterData {
     public static class Chapter {
         private String title;
         private String content;
+        private String author;
 
-        public Chapter(String title, String content) {
+        public Chapter(String title, String content, String author) {
             this.title = title;
             this.content = content;
+            this.author = author;
         }
 
         public String getTitle() {
@@ -209,7 +211,12 @@ public class ChapterData {
         }
 
         public String getContent() {
+
             return content;
+        }
+
+        public String getAuthor() {
+            return author;
         }
     }
 }
