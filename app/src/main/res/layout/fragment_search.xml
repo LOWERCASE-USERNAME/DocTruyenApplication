@@ -3,35 +3,91 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center">
+    android:padding="16dp">
 
-    <!-- Text cho tiêu đề tìm kiếm -->
-    <TextView
-        android:id="@+id/search_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tìm kiếm truyện"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:paddingBottom="20dp" />
-
-    <!-- Ô nhập từ khóa tìm kiếm -->
-    <EditText
-        android:id="@+id/search_input"
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nhập từ khóa tìm kiếm..."
-        android:padding="12dp"
-        android:layout_marginBottom="16dp" />
+        android:background="@color/basic">
 
-    <!-- Nút để bắt đầu tìm kiếm -->
-    <Button
-        android:id="@+id/search_button"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tìm kiếm truyện"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:layout_gravity="center" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- Search input field with button -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tìm kiếm"
-        android:padding="10dp"
-        android:textSize="16sp" />
+        android:orientation="vertical"
+        android:layout_marginBottom="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <EditText
+                android:id="@+id/search_input"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="Tìm kiếm"
+                android:padding="8dp"
+                android:background="@android:color/transparent" />
+
+            <ImageButton
+                android:id="@+id/search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_search"
+                android:contentDescription="Search"
+                android:background="@android:color/transparent"
+                android:padding="8dp" />
+        </LinearLayout>
+
+        <!-- Toggle buttons for Story and Author -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="8dp">
+
+            <Button
+                android:id="@+id/button_story"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Truyện"
+                android:textColor="@android:color/white"
+                android:background="@color/basic" />
+
+            <Button
+                android:id="@+id/button_author"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Tác giả"
+                android:textColor="@android:color/white"
+                android:background="@color/basic" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- GridView to display list of stories or authors -->
+    <GridView
+        android:id="@+id/grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:verticalSpacing="16dp"
+        android:horizontalSpacing="16dp" />
 </LinearLayout>
