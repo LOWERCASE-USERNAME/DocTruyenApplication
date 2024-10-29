@@ -1,23 +1,23 @@
 package com.example.doctruyenapplication;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.doctruyenapplication.adapter.BannerAdapter;
 import com.example.doctruyenapplication.adapter.BookAdapter;
 import com.example.doctruyenapplication.object.Book;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,76 +40,64 @@ public class LibraryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library, container, false);
 
-        // Initialize views and data
-        initializeViews(view);
-        initializeBookList();
-        setupAdapters();
-        setupMenuButton();
-        setupClickListeners(view);
-        setupGridViewItemClick(newStoriesGridView);
-        setupGridViewItemClick(bestStoriesGridView);
-        setupGridViewItemClick(anStoriesGridView);
-
-        return view;
-    }
-
-    // Initialize the views in the fragment
-    private void initializeViews(View view) {
+        // Khởi tạo GridView
         newStoriesGridView = view.findViewById(R.id.new_stories_grid);
         bestStoriesGridView = view.findViewById(R.id.best_stories_grid);
         anStoriesGridView = view.findViewById(R.id.an_stories_grid);
-        menuButton = view.findViewById(R.id.menu_button);
-    }
 
-    // Populate the book list with some sample data
-    private void initializeBookList() {
+        // Khởi tạo danh sách sách
         bookList = new ArrayList<>();
         bookList.add(new Book("https://cdn.myanimelist.net/images/anime/12/39497.jpg", "Boku no Pico", "Chapter 1"));
-        bookList.add(new Book("https://a.pinatafarm.com/500x377/d972ce254e/2-gay-black-mens-kissing.jpg", "Two black men kissing", "Chapter 2"));
+        bookList.add(new Book("https://a.pinatafarm.com/500x377/d972ce254e/2-gay-black-mens-kissing.jpg", "Two black man kissing", "Chapter 2"));
         bookList.add(new Book("https://ih1.redbubble.net/image.4595760308.2867/flat,750x,075,f-pad,750x1000,f8f8f8.jpg", "Why are you gay", "Chapter 3"));
-    }
 
-    // Set up the adapter and assign it to each GridView
-    private void setupAdapters() {
+        // Gán adapter cho GridView
         bookAdapter = new BookAdapter(getActivity(), R.layout.item_book, bookList);
         newStoriesGridView.setAdapter(bookAdapter);
         bestStoriesGridView.setAdapter(bookAdapter);
         anStoriesGridView.setAdapter(bookAdapter);
-    }
 
-    // Set up the menu button to show a popup menu on click
-    private void setupMenuButton() {
+        // Khởi tạo ViewPager2 cho banner
+        ViewPager2 viewPager = view.findViewById(R.id.banner_viewpager);
+        int[] images = {
+                R.drawable.tptk,
+                R.drawable.dldl,
+                R.drawable.dptk
+        };
+        BannerAdapter bannerAdapter = new BannerAdapter(getActivity(), images);
+        viewPager.setAdapter(bannerAdapter);
+
+        // Thiết lập auto scroll cho ViewPager2
+        setupAutoScroll(viewPager);
+
+        // Khởi tạo nút menu
+        menuButton = view.findViewById(R.id.menu_button);
         menuButton.setOnClickListener(v -> showMenu());
+
+        // Thiết lập click listener
+        setupClickListeners(view);
+
+        return view;
     }
 
-    // Show a popup menu when the menu button is clicked
-    private void showMenu() {
-        PopupMenu popupMenu = new PopupMenu(requireContext(), menuButton);
-        popupMenu.getMenuInflater().inflate(R.menu.context_menu, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(this::onMenuItemClick);
-        popupMenu.show();
+    private void setupAutoScroll(ViewPager2 viewPager) {
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (viewPager.getCurrentItem() == 2) {
+                    viewPager.setCurrentItem(0);
+                } else {
+                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                }
+                handler.postDelayed(this, 15000);
+            }
+        };
+        handler.postDelayed(runnable, 5000);
     }
 
-    // Handle menu item clicks to navigate to different story categories
-    private boolean onMenuItemClick(MenuItem menuItem) {
-        String storyType = STORY_TYPE_MAP.get(menuItem.getItemId());
-        if (storyType != null) {
-            navigateToListStoriesFragment(storyType);
-            return true;
-        }
-        return false;
-    }
-
-    // Navigate to the list of stories for a specific category
-    private void navigateToListStoriesFragment(String storyType) {
-        ListStory_Fragment fragment = ListStory_Fragment.newInstance(storyType);
-        navigateToFragment(fragment);
-    }
-
-    // Set up click listeners for various buttons in the fragment
     private void setupClickListeners(View view) {
         ImageButton searchButton = view.findViewById(R.id.search_button);
         searchButton.setOnClickListener(v -> navigateToFragment(new SearchFragment()));
@@ -124,21 +112,31 @@ public class LibraryFragment extends Fragment {
         viewMoreAwardStories.setOnClickListener(v -> navigateToFragment(new MoreStoriesFragment()));
     }
 
-    // Set up item click listeners for each GridView to navigate to the chapter details
-    private void setupGridViewItemClick(GridView gridView) {
-        gridView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
-            Book selectedBook = bookList.get(position);
-            navigateToChapterDetailFragment(selectedBook);
-        });
+    private void showMenu() {
+        PopupMenu popupMenu = new PopupMenu(requireContext(), menuButton);
+        popupMenu.getMenuInflater().inflate(R.menu.context_menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(this::onMenuItemClick);
+        popupMenu.show();
     }
 
-    // Navigate to the ChapterDetailFragment with the selected book
-    private void navigateToChapterDetailFragment(Book book) {
-        ChapterDetailFragment chapterDetailFragment = ChapterDetailFragment.newInstance("title", "chapter");
-        navigateToFragment(chapterDetailFragment);
+    private boolean onMenuItemClick(MenuItem menuItem) {
+        String storyType = STORY_TYPE_MAP.get(menuItem.getItemId());
+        if (storyType != null) {
+            navigateToListStoriesFragment(storyType);
+            return true;
+        }
+        return false;
     }
 
-    // Generic method to navigate to a fragment
+    private void navigateToListStoriesFragment(String storyType) {
+        ListStory_Fragment fragment = ListStory_Fragment.newInstance(storyType);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
     private void navigateToFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -146,4 +144,5 @@ public class LibraryFragment extends Fragment {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
 }

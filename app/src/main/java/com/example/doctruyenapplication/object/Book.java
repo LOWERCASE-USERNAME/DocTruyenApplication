@@ -1,38 +1,47 @@
 package com.example.doctruyenapplication.object;
 
 public class Book {
-    private String link, bookname,bookchap;
+    private String link;      // Liên kết hình ảnh của sách
+    private String bookName;  // Tên sách
+    private String bookChapter; // Chương sách
 
+    // Constructor không tham số
     public Book() {
     }
 
-    public Book(String link, String bookname, String bookchap) {
+    // Constructor có tham số
+    public Book(String link, String bookName, String bookChapter) {
         this.link = link;
-        this.bookname = bookname;
-        this.bookchap = bookchap;
+        this.bookName = bookName;
+        this.bookChapter = bookChapter;
     }
 
+    // Getter cho link
     public String getLink() {
         return link;
     }
 
+    // Setter cho link
     public void setLink(String link) {
         this.link = link;
     }
 
-    public String getBookname() {
-        return bookname;
+    public String getBookName() {
+        return bookName;
     }
 
-    public void setBookname(String bookname) {
-        this.bookname = bookname;
+    // Setter cho bookName
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
     }
 
-    public String getBookchap() {
-        return bookchap;
+    // Getter cho bookChapter
+    public String getBookChapter() {
+        return bookChapter;
     }
 
-    public void setBookchap(String bookchap) {
-        this.bookchap = bookchap;
+    // Setter cho bookChapter
+    public void setBookChapter(String bookChapter) {
+        this.bookChapter = bookChapter;
     }
 }
