@@ -95,7 +95,7 @@ public class LibraryFragment extends Fragment {
                 handler.postDelayed(this, 15000);
             }
         };
-        handler.postDelayed(runnable, 15000);
+        handler.postDelayed(runnable, 5000);
     }
 
     private void setupClickListeners(View view) {
