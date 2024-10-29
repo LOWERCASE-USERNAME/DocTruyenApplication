@@ -1,6 +1,7 @@
 package com.example.doctruyenapplication;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.doctruyenapplication.adapter.BannerAdapter;
 import com.example.doctruyenapplication.adapter.BookAdapter;
 import com.example.doctruyenapplication.object.Book;
 import java.util.ArrayList;
@@ -37,34 +40,62 @@ public class LibraryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library, container, false);
 
-        // Initialize GridView
+        // Khởi tạo GridView
         newStoriesGridView = view.findViewById(R.id.new_stories_grid);
         bestStoriesGridView = view.findViewById(R.id.best_stories_grid);
         anStoriesGridView = view.findViewById(R.id.an_stories_grid);
 
-        // Initialize book list and add some sample data
+        // Khởi tạo danh sách sách
         bookList = new ArrayList<>();
         bookList.add(new Book("https://cdn.myanimelist.net/images/anime/12/39497.jpg", "Boku no Pico", "Chapter 1"));
         bookList.add(new Book("https://a.pinatafarm.com/500x377/d972ce254e/2-gay-black-mens-kissing.jpg", "Two black man kissing", "Chapter 2"));
         bookList.add(new Book("https://ih1.redbubble.net/image.4595760308.2867/flat,750x,075,f-pad,750x1000,f8f8f8.jpg", "Why are you gay", "Chapter 3"));
 
-        // Create an adapter and set it to the GridView
+        // Gán adapter cho GridView
         bookAdapter = new BookAdapter(getActivity(), R.layout.item_book, bookList);
         newStoriesGridView.setAdapter(bookAdapter);
         bestStoriesGridView.setAdapter(bookAdapter);
         anStoriesGridView.setAdapter(bookAdapter);
 
-        // Set up menu button click listener
+        // Khởi tạo ViewPager2 cho banner
+        ViewPager2 viewPager = view.findViewById(R.id.banner_viewpager);
+        int[] images = {
+                R.drawable.tptk,
+                R.drawable.dldl,
+                R.drawable.dptk
+        };
+        BannerAdapter bannerAdapter = new BannerAdapter(getActivity(), images);
+        viewPager.setAdapter(bannerAdapter);
+
+        // Thiết lập auto scroll cho ViewPager2
+        setupAutoScroll(viewPager);
+
+        // Khởi tạo nút menu
         menuButton = view.findViewById(R.id.menu_button);
         menuButton.setOnClickListener(v -> showMenu());
 
-        // Set up click listeners
+        // Thiết lập click listener
         setupClickListeners(view);
 
         return view;
+    }
+
+    private void setupAutoScroll(ViewPager2 viewPager) {
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (viewPager.getCurrentItem() == 2) {
+                    viewPager.setCurrentItem(0);
+                } else {
+                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                }
+                handler.postDelayed(this, 15000);
+            }
+        };
+        handler.postDelayed(runnable, 15000);
     }
 
     private void setupClickListeners(View view) {
@@ -113,4 +144,5 @@ public class LibraryFragment extends Fragment {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
 }

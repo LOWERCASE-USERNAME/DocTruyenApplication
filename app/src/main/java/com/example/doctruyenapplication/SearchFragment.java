@@ -11,7 +11,9 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.doctruyenapplication.adapter.AuthorAdapter;
 import com.example.doctruyenapplication.adapter.BookHoriAdapter;
+import com.example.doctruyenapplication.object.Author;
 import com.example.doctruyenapplication.object.Book;
 
 import java.util.ArrayList;
@@ -25,8 +27,10 @@ public class SearchFragment extends Fragment {
     private GridView gridView;
 
     private boolean isSearchingForStories = true; // Mặc định tìm kiếm truyện
-    private BookHoriAdapter adapter;
-    private List<Book> bookList; // Danh sách sách
+    private BookHoriAdapter bookAdapter;
+    private AuthorAdapter authorAdapter;
+    private List<Book> bookList; // Danh sách tất cả sách
+    private List<Author> authorList; // Danh sách tác giả
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,12 +44,13 @@ public class SearchFragment extends Fragment {
         buttonAuthor = view.findViewById(R.id.button_author);
         gridView = view.findViewById(R.id.grid_view);
 
-        // Tạo danh sách sách mẫu
+        // Tạo danh sách sách và tác giả mẫu
         createBookList();
+        createAuthorList();
 
-        // Khởi tạo adapter và thiết lập cho GridView
-        adapter = new BookHoriAdapter(getContext(), R.layout.item_book_hori, bookList);
-        gridView.setAdapter(adapter);
+        // Khởi tạo adapter cho sách
+        bookAdapter = new BookHoriAdapter(getContext(), R.layout.item_book_hori, bookList);
+        gridView.setAdapter(bookAdapter);
 
         // Thiết lập sự kiện cho nút tìm kiếm
         searchButton.setOnClickListener(v -> performSearch());
@@ -72,11 +77,18 @@ public class SearchFragment extends Fragment {
         bookList = new ArrayList<>();
         // Thêm các cuốn sách mẫu
         bookList.add(new Book("https://cdn.myanimelist.net/images/anime/12/39497.jpg", "Boku no Pico", "Chapter 1"));
-        bookList.add(new Book("https://a.pinatafarm.com/500x377/d972ce254e/2-gay-black-mens-kissing.jpg", "Two black men kissing", "Chapter 2"));
-        bookList.add(new Book("https://ih1.redbubble.net/image.4595760308.2867/flat,750x,075,f-pad,750x1000,f8f8f8.jpg", "Why are you gay?", "Chapter 3"));
-        bookList.add(new Book("https://dientusangtaovn.com/wp-content/uploads/2023/03/an-ba-to-com.jpg", "An ba to com", "Chapter 69"));
-        bookList.add(new Book("https://oladino.com/wp-content/uploads/2024/09/diddy-be-out-here-slicker-than-ever-funny-diddy-baby-oil-meme-png-280924013-800x800.jpg", "How to yummy in Diddy's party", "Chapter 500"));
+        bookList.add(new Book("https://a.pinatafarm.com/500x377/d972ce254e/2-gay-black-mens-kissing.jpg", "Two black man kissing", "Chapter 2"));
+        bookList.add(new Book("https://ih1.redbubble.net/image.4595760308.2867/flat,750x,075,f-pad,750x1000,f8f8f8.jpg", "Why are you gay", "Chapter 3"));
         // Thêm nhiều sách hơn nếu cần
+    }
+
+    private void createAuthorList() {
+        authorList = new ArrayList<>();
+        // Thêm các tác giả mẫu với đường dẫn hình ảnh
+        authorList.add(new Author(1, "Ngã Cật Tây Hồng Thị", "Tác giả nổi tiếng", "https://tienhiep.info/wp-content/uploads/2018/09/nga-cat-tay-hong-thi.jpg"));
+        authorList.add(new Author(2, "Đường Gia Tam Thiếu", "Tác giả nổi tiếng", "https://i.vietgiaitri.com/2018/9/23/duong-gia-tam-thieu-ngay-truoc-vi-em-anh-nguyen-yeu-ca-the-gioi--6027bb.jpg"));
+        authorList.add(new Author(3, " Lão Ưng Cật Tiểu Kê", "Mô tả tác giả 3", "https://yymedia.codeprime.net/media/authors/5cb6c91fdb.jpg"));
+        // Thêm nhiều tác giả hơn nếu cần
     }
 
     private void performSearch() {
@@ -95,33 +107,36 @@ public class SearchFragment extends Fragment {
     }
 
     private void loadStories() {
-        // Logic tải danh sách truyện
-        adapter.updateData(bookList); // Hiển thị danh sách sách hiện tại
+        gridView.setAdapter(bookAdapter); // Hiển thị danh sách truyện
+        bookAdapter.updateData(bookList); // Cập nhật dữ liệu cho adapter sách
     }
 
     private void loadAuthors() {
-        // Logic tải danh sách tác giả
-        // Có thể sử dụng danh sách sách nếu bạn chỉ muốn hiển thị cùng một danh sách
-        adapter.updateData(bookList); // Cập nhật nếu bạn có danh sách tác giả riêng
+        if (authorAdapter == null) {
+            authorAdapter = new AuthorAdapter(getContext(), authorList);
+        }
+        gridView.setAdapter(authorAdapter); // Hiển thị danh sách tác giả
+        authorAdapter.updateData(authorList); // Cập nhật dữ liệu cho adapter tác giả
     }
 
     private void searchStories(String query) {
         List<Book> filteredBooks = new ArrayList<>();
         for (Book book : bookList) {
-            if (book.getBookname().toLowerCase().contains(query.toLowerCase())) {
+            // Kiểm tra xem tên sách có chứa từ khóa tìm kiếm không
+            if (book.getBookName().toLowerCase().contains(query.toLowerCase())) {
                 filteredBooks.add(book);
             }
         }
-        adapter.updateData(filteredBooks); // Cập nhật GridView với kết quả tìm kiếm
+        bookAdapter.updateData(filteredBooks); // Cập nhật GridView với kết quả tìm kiếm
     }
 
     private void searchAuthors(String query) {
-        List<Book> filteredBooks = new ArrayList<>();
-        for (Book book : bookList) {
-            if (book.getBookname().toLowerCase().contains(query.toLowerCase())) {
-                filteredBooks.add(book);
+        List<Author> filteredAuthors = new ArrayList<>();
+        for (Author author : authorList) {
+            if (author.getAuthorName().toLowerCase().contains(query.toLowerCase())) {
+                filteredAuthors.add(author);
             }
         }
-        adapter.updateData(filteredBooks); // Cập nhật GridView với kết quả tìm kiếm
+        authorAdapter.updateData(filteredAuthors); // Cập nhật GridView với kết quả tìm kiếm
     }
 }
