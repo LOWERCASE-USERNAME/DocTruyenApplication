@@ -11,6 +11,8 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -148,7 +150,11 @@ public class LibraryFragment extends Fragment {
 
     private void showMenu() {
         PopupMenu popupMenu = new PopupMenu(requireContext(), menuButton);
-        genres.forEach(g -> popupMenu.getMenu().add(g.getGenreName()));
+        if(genres == null){
+            Toast.makeText(requireContext(), "API not connected", Toast.LENGTH_SHORT).show();
+        }else{
+            genres.forEach(g -> popupMenu.getMenu().add(g.getGenreName()));
+        }
 //        popupMenu.getMenuInflater().inflate(R.menu.context_menu, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(this::onMenuItemClick);
         popupMenu.show();
