@@ -46,15 +46,14 @@ public class BookHoriAdapter extends ArrayAdapter<Book> {
         ImageView bookImage = convertView.findViewById(R.id.book_image);
         CheckBox bookCheckbox = convertView.findViewById(R.id.book_checkbox);
 
-        bookTitle.setText(book.getBookname());
-        bookChapter.setText(book.getBookchap());
+        bookTitle.setText(book.getBookName());
+        bookChapter.setText(book.getBookChapter());
         Glide.with(context).load(book.getLink()).into(bookImage);
 
-        // Alternate background colors
         if (position % 2 == 0) {
-            convertView.setBackgroundColor(0xFFEFEFEF); // Light gray
+            convertView.setBackgroundColor(0xFFEFEFEF);
         } else {
-            convertView.setBackgroundColor(0xFFFFFFFF); // White
+            convertView.setBackgroundColor(0xFFFFFFFF);
         }
 
         // Change the background color based on selection
@@ -73,11 +72,6 @@ public class BookHoriAdapter extends ArrayAdapter<Book> {
                 bookCheckbox.setChecked(!selectedItems.get(position));
                 selectedItems.set(position, !selectedItems.get(position));
                 notifyDataSetChanged();
-            } else {
-                // Navigate to book details
-                // Intent intent = new Intent(context, BookDetailActivity.class);
-                // intent.putExtra("bookId", book.getId());
-                // context.startActivity(intent);
             }
         });
 
@@ -87,7 +81,7 @@ public class BookHoriAdapter extends ArrayAdapter<Book> {
     public void setSelectionMode(boolean selectionMode) {
         this.isSelectionMode = selectionMode;
         if (!selectionMode) {
-            clearSelections(); // Clear selections when exiting selection mode
+            clearSelections();
         }
         notifyDataSetChanged();
     }
@@ -118,10 +112,26 @@ public class BookHoriAdapter extends ArrayAdapter<Book> {
         }
         notifyDataSetChanged();
     }
+
     public void updateData(List<Book> books) {
         this.books.clear();
         this.books.addAll(books);
         notifyDataSetChanged();
     }
 
+    public void filterBooks(String query) {
+        String searchQuery = query.toUpperCase();
+        List<Book> filteredList = new ArrayList<>();
+
+        for (Book book : books) {
+            String bookName = book.getBookName().toUpperCase();
+            if (bookName.contains(searchQuery)) {
+                filteredList.add(book);
+            }
+        }
+
+        clear();
+        addAll(filteredList);
+        notifyDataSetChanged();
+    }
 }

@@ -8,55 +8,72 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.bumptech.glide.Glide;
 import com.example.doctruyenapplication.R;
 import com.example.doctruyenapplication.object.Book;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+
 public class BookAdapter extends ArrayAdapter<Book> {
-    private Context ct;
-    private ArrayList<Book> arr;
+    private Context context;
+    private List<Book> bookList; // Danh sách sách
 
     public BookAdapter(Context context, int resource, List<Book> objects) {
         super(context, resource, objects);
-        this.ct = context;
-        this.arr = new ArrayList<>(objects);
+        this.context = context;
+        this.bookList = new ArrayList<>(objects);
     }
-    public void sortTruyen(String s){
-        s= s.toUpperCase();
-        int k=0;
-        for(int i=0; i<arr.size();i++){
-            Book t = arr.get(i);
-            String ten = t.getBookname().toUpperCase();
-            if(ten.indexOf(s)>=0){
-                arr.set(i,arr.get(k));
-                arr.set(k,t);
-                k++;
+
+    // Phương thức tìm kiếm sách
+    public void filterBooks(String query) {
+        String searchQuery = query.toUpperCase();
+        List<Book> filteredList = new ArrayList<>();
+
+        for (Book book : bookList) {
+            String bookName = book.getBookName().toUpperCase();
+            if (bookName.contains(searchQuery)) {
+                filteredList.add(book);
             }
         }
+
+        // Cập nhật danh sách và thông báo thay đổi
+        clear();
+        addAll(filteredList);
         notifyDataSetChanged();
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) ct.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.item_book, null);
-        }
-        if (arr.size() > 0) {
-            Book book = this.arr.get(position);
-            TextView tentenTruyen = convertView.findViewById(R.id.txvTenTruyen);
-            TextView tentenChap = convertView.findViewById(R.id.txvTenChap);
-            ImageView anhTruyen = convertView.findViewById(R.id.txvImage);
+        ViewHolder holder;
 
-            tentenTruyen.setText(book.getBookname());
-            tentenChap.setText(book.getBookchap());
-            Glide.with(this.ct).load(book.getLink()).into(anhTruyen);
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            convertView = inflater.inflate(R.layout.item_book, parent, false);
+            holder = new ViewHolder();
+            holder.titleTextView = convertView.findViewById(R.id.txvTenTruyen);
+            holder.chapterTextView = convertView.findViewById(R.id.txvTenChap);
+            holder.imageView = convertView.findViewById(R.id.txvImage);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
+
+        // Kiểm tra vị trí có hợp lệ
+        if (position >= 0 && position < bookList.size()) {
+            Book book = bookList.get(position);
+            holder.titleTextView.setText(book.getBookName());
+            holder.chapterTextView.setText(book.getBookChapter());
+            Glide.with(context).load(book.getLink()).into(holder.imageView);
+        }
+
         return convertView;
     }
 
-
+    // Lớp ViewHolder để tối ưu hóa hiệu suất
+    static class ViewHolder {
+        TextView titleTextView;
+        TextView chapterTextView;
+        ImageView imageView;
+    }
 }

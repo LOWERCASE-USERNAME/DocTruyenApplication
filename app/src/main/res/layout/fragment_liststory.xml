@@ -41,7 +41,16 @@
                 android:contentDescription="Search"
                 android:src="@drawable/search" />
         </androidx.appcompat.widget.Toolbar>
-
+        <GridView
+            android:id="@+id/list_stories_grid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnWidth="100dp"
+            android:horizontalSpacing="8dp"
+            android:numColumns="3"
+            android:padding="8dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="8dp" />
         <!-- Story list content will go here -->
 
     </LinearLayout>
