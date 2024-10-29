@@ -1,6 +1,7 @@
 package com.example.doctruyenapplication;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,11 +17,19 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.doctruyenapplication.adapter.BookAdapter;
+import com.example.doctruyenapplication.api.ApiService;
+import com.example.doctruyenapplication.api.RetrofitClient;
 import com.example.doctruyenapplication.object.Book;
+import com.example.doctruyenapplication.object.Genre;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LibraryFragment extends Fragment {
     private static final Map<Integer, String> STORY_TYPE_MAP = new HashMap<>();
@@ -37,11 +46,16 @@ public class LibraryFragment extends Fragment {
     private ArrayList<Book> bookList;
     private BookAdapter bookAdapter;
     private ImageButton menuButton;
+    private ApiService apiService;
+    private List<Genre> genres;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library, container, false);
+
+        apiService = RetrofitClient.getInstance().create(ApiService.class);
+        fetchGenres();
 
         // Initialize views and data
         initializeViews(view);
@@ -54,6 +68,25 @@ public class LibraryFragment extends Fragment {
         setupGridViewItemClick(anStoriesGridView);
 
         return view;
+    }
+
+    private void fetchGenres(){
+        Call<List<Genre>> call = apiService.getGenres();
+        call.enqueue(new Callback<List<Genre>>() {
+            @Override
+            public void onResponse(Call<List<Genre>> call, Response<List<Genre>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    genres = response.body();
+                } else {
+                    Log.e("Retrofit", "Response error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Genre>> call, Throwable t) {
+                Log.e("Retrofit", "Network error: " + t.getMessage());
+            }
+        });
     }
 
     // Initialize the views in the fragment
@@ -88,14 +121,16 @@ public class LibraryFragment extends Fragment {
     // Show a popup menu when the menu button is clicked
     private void showMenu() {
         PopupMenu popupMenu = new PopupMenu(requireContext(), menuButton);
-        popupMenu.getMenuInflater().inflate(R.menu.context_menu, popupMenu.getMenu());
+        genres.forEach(g -> popupMenu.getMenu().add(g.getGenreName()));
+//        popupMenu.getMenuInflater().inflate(R.menu.context_menu, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(this::onMenuItemClick);
         popupMenu.show();
     }
 
     // Handle menu item clicks to navigate to different story categories
     private boolean onMenuItemClick(MenuItem menuItem) {
-        String storyType = STORY_TYPE_MAP.get(menuItem.getItemId());
+//        String storyType = STORY_TYPE_MAP.get(menuItem.getItemId());
+        String storyType = menuItem.getTitle().toString();
         if (storyType != null) {
             navigateToListStoriesFragment(storyType);
             return true;
