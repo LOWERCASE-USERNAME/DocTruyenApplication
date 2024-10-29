@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import com.example.doctruyenapplication.R;
 import com.example.doctruyenapplication.object.Book;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BookHoriAdapter extends ArrayAdapter<Book> {
@@ -42,6 +44,7 @@ public class BookHoriAdapter extends ArrayAdapter<Book> {
         TextView bookTitle = convertView.findViewById(R.id.book_title);
         TextView bookChapter = convertView.findViewById(R.id.book_chapter);
         ImageView bookImage = convertView.findViewById(R.id.book_image);
+        CheckBox bookCheckbox = convertView.findViewById(R.id.book_checkbox);
 
         bookTitle.setText(book.getBookName());
         bookChapter.setText(book.getBookChapter());
@@ -53,12 +56,20 @@ public class BookHoriAdapter extends ArrayAdapter<Book> {
             convertView.setBackgroundColor(0xFFFFFFFF);
         }
 
+        // Change the background color based on selection
         if (isSelectionMode) {
-            convertView.setBackgroundColor(selectedItems.get(position) ? 0xFFDDDDDD : (position % 2 == 0 ? 0xFFEFEFEF : 0xFFFFFFFF));
+            bookCheckbox.setVisibility(View.VISIBLE);
+//            convertView.setBackgroundColor(selectedItems.get(position) ? 0xFFDDDDDD : (position % 2 == 0 ? 0xFFEFEFEF : 0xFFFFFFFF));
+        }else{
+            bookCheckbox.setVisibility(View.GONE);
+            bookCheckbox.setChecked(false);
         }
 
+        // Handle clicks differently based on selection mode
         convertView.setOnClickListener(v -> {
             if (isSelectionMode) {
+                // Toggle selection state
+                bookCheckbox.setChecked(!selectedItems.get(position));
                 selectedItems.set(position, !selectedItems.get(position));
                 notifyDataSetChanged();
             }
