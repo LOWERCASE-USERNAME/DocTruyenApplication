@@ -44,6 +44,7 @@
         android:showDividers="middle">
 
         <LinearLayout
+            android:id="@+id/option_register_to_write"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -66,6 +67,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/option_write_book"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -88,6 +90,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/option_about_us"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -109,6 +112,7 @@
                 android:gravity="center_vertical" />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/option_policy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
