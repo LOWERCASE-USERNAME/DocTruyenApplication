@@ -63,8 +63,8 @@ public class BookAdapter extends ArrayAdapter<Book> {
         if (position >= 0 && position < bookList.size()) {
             Book book = bookList.get(position);
             holder.titleTextView.setText(book.getBookName());
-            holder.chapterTextView.setText(book.getBookChapter());
-            Glide.with(context).load(book.getLink()).into(holder.imageView);
+//            holder.chapterTextView.setText(book.getChapters());
+            Glide.with(context).load(book.getPictureLink()).into(holder.imageView);
         }
 
         return convertView;
