@@ -14,7 +14,6 @@ import com.example.doctruyenapplication.R;
 import com.example.doctruyenapplication.object.Book;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class BookHoriAdapter extends ArrayAdapter<Book> {
@@ -47,8 +46,8 @@ public class BookHoriAdapter extends ArrayAdapter<Book> {
         CheckBox bookCheckbox = convertView.findViewById(R.id.book_checkbox);
 
         bookTitle.setText(book.getBookName());
-        bookChapter.setText(book.getBookChapter());
-        Glide.with(context).load(book.getLink()).into(bookImage);
+//        bookChapter.setText(book.getChapters());
+        Glide.with(context).load(book.getPictureLink()).into(bookImage);
 
         if (position % 2 == 0) {
             convertView.setBackgroundColor(0xFFEFEFEF);

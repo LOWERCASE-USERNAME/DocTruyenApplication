@@ -1,17 +1,20 @@
 package com.example.doctruyenapplication.object;
 
+import java.util.List;
+
 public class Author {
-    int authorId;
-    String authorName, authorDes, authorImg;
+    private int authorId;
+    private String authorName, description, pictureLink;
+    private List<Book> books;
 
     public Author() {
     }
 
-    public Author(int authorId, String authorName, String authorDes, String authorImg) {
+    public Author(int authorId, String authorName, String description, String pictureLink) {
         this.authorId = authorId;
         this.authorName = authorName;
-        this.authorDes = authorDes;
-        this.authorImg = authorImg;
+        this.description = description;
+        this.pictureLink = pictureLink;
     }
 
     public int getAuthorId() {
@@ -30,19 +33,27 @@ public class Author {
         this.authorName = authorName;
     }
 
-    public String getAuthorDes() {
-        return authorDes;
+    public String getDescription() {
+        return description;
     }
 
-    public void setAuthorDes(String authorDes) {
-        this.authorDes = authorDes;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getAuthorImg() {
-        return authorImg;
+    public String getPictureLink() {
+        return pictureLink;
     }
 
-    public void setAuthorImg(String authorImg) {
-        this.authorImg = authorImg;
+    public void setPictureLink(String pictureLink) {
+        this.pictureLink = pictureLink;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 }

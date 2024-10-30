@@ -53,7 +53,7 @@ public class AuthorAdapter extends BaseAdapter {
         TextView authorName = convertView.findViewById(R.id.author_name);
 
         authorName.setText(author.getAuthorName());
-        new LoadImageTask(authorImage).execute(author.getAuthorImg());
+        new LoadImageTask(authorImage).execute(author.getPictureLink());
         return convertView;
     }
 
