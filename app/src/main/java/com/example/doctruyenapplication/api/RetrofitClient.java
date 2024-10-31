@@ -1,6 +1,20 @@
 package com.example.doctruyenapplication.api;
 
+import android.util.JsonReader;
+import android.util.JsonWriter;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.TypeAdapter;
+
+import java.io.IOException;
 import java.security.cert.CertificateException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -16,11 +30,15 @@ public class RetrofitClient {
     private static Retrofit retrofit;
 
     public static Retrofit getInstance() {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new CustomDateTypeAdapter())
+                .create();
+
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(getUnsafeOkHttpClient())
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
         return retrofit;
@@ -60,4 +78,30 @@ public class RetrofitClient {
             throw new RuntimeException(e);
         }
     }
+
+    public static class CustomDateTypeAdapter extends TypeAdapter<Date> {
+        private final SimpleDateFormat[] dateFormats = new SimpleDateFormat[] {
+                new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS", Locale.getDefault()),  // with milliseconds
+                new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())           // without milliseconds
+        };
+
+        @Override
+        public void write(com.google.gson.stream.JsonWriter out, Date value) throws IOException {
+            out.value(dateFormats[0].format(value));
+        }
+
+        @Override
+        public Date read(com.google.gson.stream.JsonReader in) throws IOException {
+            String dateStr = in.nextString();
+            for (SimpleDateFormat dateFormat : dateFormats) {
+                try {
+                    return dateFormat.parse(dateStr);
+                } catch (ParseException ignored) {
+                    // Try the next format
+                }
+            }
+            throw new IOException("Unparseable date: " + dateStr);
+        }
+    }
+
 }

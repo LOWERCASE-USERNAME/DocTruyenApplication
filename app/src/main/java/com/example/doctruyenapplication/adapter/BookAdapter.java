@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.doctruyenapplication.R;
 import com.example.doctruyenapplication.object.Book;
+import com.example.doctruyenapplication.object.Chapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,11 @@ public class BookAdapter extends ArrayAdapter<Book> {
         if (position >= 0 && position < bookList.size()) {
             Book book = bookList.get(position);
             holder.titleTextView.setText(book.getBookName());
-//            holder.chapterTextView.setText(book.getChapters());
+            List<Chapter> chapters = book.getChapters();
+            if(chapters != null){
+                Chapter newestChapter = chapters.get(chapters.size() - 1);
+                holder.chapterTextView.setText(String.format("Chapter %d: %s", newestChapter.getChapterOrder(), newestChapter.getChapterName()));
+            }
             Glide.with(context).load(book.getPictureLink()).into(holder.imageView);
         }
 

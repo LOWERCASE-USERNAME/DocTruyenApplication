@@ -3,52 +3,68 @@ package com.example.doctruyenapplication;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageButton;
 
-import com.example.doctruyenapplication.R;
 import com.example.doctruyenapplication.adapter.BookHoriAdapter;
+import com.example.doctruyenapplication.api.ApiService;
+import com.example.doctruyenapplication.api.RetrofitClient;
 import com.example.doctruyenapplication.object.Book;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class BookselfFragment extends Fragment {
+    private ApiService apiService;
     private BookHoriAdapter bookHoriAdapter;
     private GridView gridView;
     private boolean isSelectionMode = false;
+    List<Book> books;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bookself, container, false);
         gridView = view.findViewById(R.id.list_stories_grid);
 
-        List<Book> books = loadBooks(); // Load book list
-        bookHoriAdapter = new BookHoriAdapter(requireContext(), R.layout.item_book_hori, books);
-        gridView.setAdapter(bookHoriAdapter);
+        //fetch initial data
+        apiService = RetrofitClient.getInstance().create(ApiService.class);
+        fetchBooks();
 
         setupTrashButton(view); // Setup trash button click event
 
         return view;
     }
 
-    private List<Book> loadBooks() {
-        // Sample code to load books
-        List<Book> books = new ArrayList<>();
-        books.add(new Book("https://cdn.myanimelist.net/images/anime/12/39497.jpg", "Boku no Pico", "Chapter 1"));
-        books.add(new Book("https://a.pinatafarm.com/500x377/d972ce254e/2-gay-black-mens-kissing.jpg", "Two black men kissing", "Chapter 2"));
-        books.add(new Book("https://ih1.redbubble.net/image.4595760308.2867/flat,750x,075,f-pad,750x1000,f8f8f8.jpg", "Why are you gay?", "Chapter 3"));
-        books.add(new Book("https://dientusangtaovn.com/wp-content/uploads/2023/03/an-ba-to-com.jpg", "An ba to com", "Chapter 69"));
-        books.add(new Book("https://oladino.com/wp-content/uploads/2024/09/diddy-be-out-here-slicker-than-ever-funny-diddy-baby-oil-meme-png-280924013-800x800.jpg", "How to yummy in Diddy's party", "Chapter 500"));
-        books.add(new Book("https://content.imageresizer.com/images/memes/Emo-Hitler-meme-8.jpg", "100 recipes for frying Jews", "Chapter 2"));
-        books.add(new Book("https://ih1.redbubble.net/image.3211247098.8237/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg", "Be bited by spider, I become the best Orphan", "Chapter 5"));
-        books.add(new Book("https://i.pinimg.com/736x/36/45/d5/3645d52b294d4b1d585c972eb4c05558.jpg", "Isekai to slave, I suprisingly become best Nigga", "Chapter 35"));
+    private void fetchBooks() {
+        Call<List<Book>> call = apiService.getAllBooks();
+        call.enqueue(new Callback<List<Book>>() {
+            @Override
+            public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    books = response.body();
+                    for(Book b : response.body()){
+//                        Log.d("Retrofit", b.getChapters());
+                    }
+                    bookHoriAdapter = new BookHoriAdapter(requireContext(), R.layout.item_book_hori, books);
+                    gridView.setAdapter(bookHoriAdapter);
+                } else {
+                    Log.e("Retrofit", "Response error: " + response.code());
+                }
+            }
 
-
-        return books;
+            @Override
+            public void onFailure(Call<List<Book>> call, Throwable t) {
+                Log.e("Retrofit", "Network error: " + t.getMessage(), t);
+            }
+        });
     }
 
     private void setupTrashButton(View view) {
