@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.doctruyenapplication.R;
 import com.example.doctruyenapplication.object.Book;
+import com.example.doctruyenapplication.object.Chapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,11 @@ public class BookHoriAdapter extends ArrayAdapter<Book> {
         CheckBox bookCheckbox = convertView.findViewById(R.id.book_checkbox);
 
         bookTitle.setText(book.getBookName());
-//        bookChapter.setText(book.getChapters());
+        List<Chapter> chapters = book.getChapters();
+        if(chapters != null){
+            Chapter newestChapter = chapters.get(chapters.size() - 1);
+            bookChapter.setText(String.format("Chapter %d: %s", newestChapter.getChapterOrder(), newestChapter.getChapterName()));
+        }
         Glide.with(context).load(book.getPictureLink()).into(bookImage);
 
         if (position % 2 == 0) {

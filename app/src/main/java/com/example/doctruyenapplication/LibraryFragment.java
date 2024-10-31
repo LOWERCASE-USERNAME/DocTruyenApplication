@@ -65,16 +65,7 @@ public class LibraryFragment extends Fragment {
         anStoriesGridView = view.findViewById(R.id.an_stories_grid);
 
         // Khởi tạo danh sách sách
-        bookList = new ArrayList<>();
-        bookList.add(new Book("https://cdn.myanimelist.net/images/anime/12/39497.jpg", "Boku no Pico", "Chapter 1"));
-        bookList.add(new Book("https://a.pinatafarm.com/500x377/d972ce254e/2-gay-black-mens-kissing.jpg", "Two black man kissing", "Chapter 2"));
-        bookList.add(new Book("https://ih1.redbubble.net/image.4595760308.2867/flat,750x,075,f-pad,750x1000,f8f8f8.jpg", "Why are you gay", "Chapter 3"));
-
-        // Gán adapter cho GridView
-        bookAdapter = new BookAdapter(getActivity(), R.layout.item_book, bookList);
-        newStoriesGridView.setAdapter(bookAdapter);
-        bestStoriesGridView.setAdapter(bookAdapter);
-        anStoriesGridView.setAdapter(bookAdapter);
+        fetchBooks();
 
         // Khởi tạo ViewPager2 cho banner
         ViewPager2 viewPager = view.findViewById(R.id.banner_viewpager);
@@ -114,6 +105,30 @@ public class LibraryFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Genre>> call, Throwable t) {
                 Log.e("Retrofit", "Network error: " + t.getMessage());
+            }
+        });
+    }
+
+    private void fetchBooks(){
+        Call<List<Book>> call = apiService.getBooks(0, 3);
+        call.enqueue(new Callback<List<Book>>() {
+            @Override
+            public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    bookList = (ArrayList<Book>) response.body();
+
+                    // Gán adapter cho GridView
+                    bookAdapter = new BookAdapter(getActivity(), R.layout.item_book, bookList);
+                    newStoriesGridView.setAdapter(bookAdapter);
+                    bestStoriesGridView.setAdapter(bookAdapter);
+                    anStoriesGridView.setAdapter(bookAdapter);
+                } else {
+                    Log.e("Retrofit", "Response error: " + response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Book>> call, Throwable t) {
+                Log.e("Retrofit", "Network error: " + t.getMessage(), t);
             }
         });
     }

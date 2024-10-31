@@ -1,12 +1,6 @@
 package com.example.doctruyenapplication.object;
 
 public class Chapter {
-//    public int ChapterId { get; set; }
-//    public string ChapterName { get; set; }
-//    public int ChapterOrder { get; set; }
-//    public string Content { get; set; }
-//    public int BookId { get; set; }
-//    public virtual Book Book { get; set; }
     private int chapterId;
     private String chapterName;
     private int chapterOrder;

@@ -7,10 +7,13 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 public interface ApiService {
     @GET("genres")
     Call<List<Genre>> getGenres();
-    @GET("Books/all")
-    Call<List<Book>> getBooks();
+    @GET("books/all")
+    Call<List<Book>> getAllBooks();
+    @GET("books")
+    Call<List<Book>> getBooks(@Query("pageNumber") int pageNumber, @Query("pageSize") int pageSize);
 }
