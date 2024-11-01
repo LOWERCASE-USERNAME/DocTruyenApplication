@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
@@ -51,6 +52,7 @@ public class LibraryFragment extends Fragment {
         newStoriesGridView = view.findViewById(R.id.new_stories_grid);
         bestStoriesGridView = view.findViewById(R.id.best_stories_grid);
         anStoriesGridView = view.findViewById(R.id.an_stories_grid);
+        setupGridViewItemClick(new GridView[]{newStoriesGridView, bestStoriesGridView, anStoriesGridView});
 
         // Khởi tạo danh sách sách
         fetchBooks();
@@ -170,6 +172,22 @@ public class LibraryFragment extends Fragment {
             return true;
         }
         return false;
+    }
+
+    // Set up item click listeners for each GridView to navigate to the chapter details
+    private void setupGridViewItemClick(GridView[] gridViews) {
+        for(GridView gridView : gridViews){
+            gridView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
+                Book selectedBook = bookList.get(position);
+                navigateToChapterDetailFragment(selectedBook);
+            });
+        }
+    }
+
+    // Navigate to the ChapterDetailFragment with the selected book
+    private void navigateToChapterDetailFragment(Book book) {
+        BookDetailFragment bookDetailFragment = BookDetailFragment.newInstance(book);
+        navigateToFragment(bookDetailFragment);
     }
 
     private void navigateToListStoriesFragment(String storyType) {

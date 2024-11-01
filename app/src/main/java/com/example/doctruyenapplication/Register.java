@@ -48,6 +48,14 @@ public class Register extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.home_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Register.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         apiService = RetrofitClient.getInstance().create(ApiService.class);
 
         btnRegister.setOnClickListener(v->register());

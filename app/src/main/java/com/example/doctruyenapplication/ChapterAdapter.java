@@ -4,16 +4,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.doctruyenapplication.object.Chapter;
+
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHolder> {
 
-    private List<ChapterData.Chapter> chapterList;
+    private List<Chapter> chapterList;
     private OnChapterClickListener onChapterClickListener;
 
-    public ChapterAdapter(List<ChapterData.Chapter> chapterList, OnChapterClickListener listener) {
+    public ChapterAdapter(List<Chapter> chapterList, OnChapterClickListener listener) {
         this.chapterList = chapterList;
         this.onChapterClickListener = listener;
     }
@@ -27,8 +34,8 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
 
     @Override
     public void onBindViewHolder(@NonNull ChapterViewHolder holder, int position) {
-        ChapterData.Chapter chapter = chapterList.get(position);
-        holder.chapterButton.setText(chapter.getTitle());
+        Chapter chapter = chapterList.get(position);
+        holder.chapterButton.setText(chapter.getChapterName());
 
         holder.chapterButton.setOnClickListener(v -> onChapterClickListener.onChapterClick(chapter));
     }
@@ -39,7 +46,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     }
 
     public static class ChapterViewHolder extends RecyclerView.ViewHolder {
-        Button chapterButton;
+        TextView chapterButton;
 
         public ChapterViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -49,6 +56,6 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
 
     // Interface for handling chapter button clicks
     public interface OnChapterClickListener {
-        void onChapterClick(ChapterData.Chapter chapter);
+        void onChapterClick(Chapter chapter);
     }
 }

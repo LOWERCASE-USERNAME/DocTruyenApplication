@@ -42,7 +42,7 @@ public class AccountFragment extends  Fragment{
         btnLogout = view.findViewById(R.id.btn_logout);
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
-        Log.e("tranhoanggiang",isLoggedIn+"");
+
         if (isLoggedIn) {
             btnLogout.setVisibility(View.VISIBLE);
             btnLogin.setVisibility(View.GONE);

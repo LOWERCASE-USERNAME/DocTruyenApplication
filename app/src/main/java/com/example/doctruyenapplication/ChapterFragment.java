@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.doctruyenapplication.object.Chapter;
+
 import java.util.List;
 
 public class ChapterFragment extends Fragment {
@@ -23,7 +25,7 @@ public class ChapterFragment extends Fragment {
     private ScrollView scrollView;
 
     private int currentChapterIndex = 0;  // Start at the first chapter (index 0)
-    private List<ChapterData.Chapter> chapters;  // Hold the list of chapters
+    private List<Chapter> chapters;  // Hold the list of chapters
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,12 +41,15 @@ public class ChapterFragment extends Fragment {
         scrollView = view.findViewById(R.id.scroll_view);
 
         // Get the list of chapters from ChapterData
-        chapters = ChapterData.getChapters();
+//        chapters = ChapterData.getChapters();
+        Bundle arg = getArguments();
+        if(arg != null){
 
+        }
         // Get arguments passed from the previous fragment
         Bundle bundle = getArguments();
         if (bundle != null) {
-            String title = bundle.getString("chapter_title", chapters.get(0).getTitle());
+            String title = bundle.getString("chapter_title", chapters.get(0).getChapterName());
             String content = bundle.getString("chapter_content", chapters.get(0).getContent());
 
             // Set the initial chapter title and content based on the passed data
@@ -70,13 +75,13 @@ public class ChapterFragment extends Fragment {
             }
         });
 
-        storyInfoButton = view.findViewById(R.id.story_info_button);
-        storyInfoButton.setOnClickListener(v -> {
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.container, new StoryInfoFragment())
-                    .addToBackStack(null)
-                    .commit();
-        });
+//        storyInfoButton = view.findViewById(R.id.story_info_button);
+//        storyInfoButton.setOnClickListener(v -> {
+//            getParentFragmentManager().beginTransaction()
+//                    .replace(R.id.container, new StoryInfoFragment())
+//                    .addToBackStack(null)
+//                    .commit();
+//        });
 
         // Setup comment button
         commentButton.setOnClickListener(v -> openCommentFragment());
@@ -88,9 +93,9 @@ public class ChapterFragment extends Fragment {
 
     // Method to load a new chapter from ChapterData
     private void loadChapter(int chapterIndex) {
-        ChapterData.Chapter chapter = chapters.get(chapterIndex);  // Get the chapter data
-        chapterTitle.setText(chapter.getTitle());
-        chapterContent.setText(chapter.getContent());
+//        ChapterData.Chapter chapter = chapters.get(chapterIndex);  // Get the chapter data
+//        chapterTitle.setText(chapter.getTitle());
+//        chapterContent.setText(chapter.getContent());
 
         // Scroll back to the top of the scroll view when the new chapter is loaded
         scrollView.scrollTo(0, 0);

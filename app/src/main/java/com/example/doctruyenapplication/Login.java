@@ -50,6 +50,14 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.home_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Login.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         apiService = RetrofitClient.getInstance().create(ApiService.class);
         btnLogin.setOnClickListener(v->login());
     }
@@ -82,7 +90,7 @@ public class Login extends AppCompatActivity {
                     try {
                         String errorMessage = response.errorBody().string(); // Đọc thông báo lỗi từ phản hồi
                         Log.d("RegisterActivity", "Error: " + errorMessage);
-                        Log.e(errorMessage,"Register failed: " + errorMessage);
+                        Toast.makeText(Login.this, "Register failed: " + errorMessage, Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

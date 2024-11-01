@@ -1,6 +1,8 @@
 package com.example.doctruyenapplication.object;
 
-public class Chapter {
+import java.io.Serializable;
+
+public class Chapter implements Serializable {
     private int chapterId;
     private String chapterName;
     private int chapterOrder;
