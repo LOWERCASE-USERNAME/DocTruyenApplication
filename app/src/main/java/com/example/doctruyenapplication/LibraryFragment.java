@@ -26,25 +26,13 @@ import com.example.doctruyenapplication.object.Book;
 import com.example.doctruyenapplication.object.Genre;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LibraryFragment extends Fragment {
-    private static final Map<Integer, String> STORY_TYPE_MAP = new HashMap<>();
-    static {
-        STORY_TYPE_MAP.put(R.id.story_type_1, "TU TIÊN");
-        STORY_TYPE_MAP.put(R.id.story_type_2, "HUYỀN HUYỄN");
-        STORY_TYPE_MAP.put(R.id.story_type_3, "CHUYỂN SINH");
-        STORY_TYPE_MAP.put(R.id.story_type_4, "HÀI HƯỚC");
-        STORY_TYPE_MAP.put(R.id.story_type_5, "NGÔN TÌNH");
-        STORY_TYPE_MAP.put(R.id.story_type_6, "KINH DỊ");
-    }
-
     private GridView newStoriesGridView, bestStoriesGridView, anStoriesGridView;
     private ArrayList<Book> bookList;
     private BookAdapter bookAdapter;
@@ -176,7 +164,6 @@ public class LibraryFragment extends Fragment {
     }
 
     private boolean onMenuItemClick(MenuItem menuItem) {
-//        String storyType = STORY_TYPE_MAP.get(menuItem.getItemId());
         String storyType = menuItem.getTitle().toString();
         if (storyType != null) {
             navigateToListStoriesFragment(storyType);

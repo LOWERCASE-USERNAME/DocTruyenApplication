@@ -19,9 +19,11 @@ public interface ApiService {
     Call<List<Book>> getAllBooks();
     @GET("books")
     Call<List<Book>> getBooks(@Query("pageNumber") int pageNumber, @Query("pageSize") int pageSize);
+    @GET("books")
+    Call<List<Book>> getBooks(@Query("pageNumber") int pageNumber, @Query("pageSize") int pageSize, @Query("genre") String genre);
 
     @GET("accounts/login")
-    Call<Account>login(@Query("email") String email,@Query("password") String password);
+    Call<Account>login(@Query("email") String email, @Query("password") String password);
 
     @POST("accounts/signup")
     Call<Account>signup(@Body Account account);
