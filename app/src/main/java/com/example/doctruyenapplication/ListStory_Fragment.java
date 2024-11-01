@@ -1,6 +1,7 @@
 package com.example.doctruyenapplication;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,16 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.doctruyenapplication.adapter.BookAdapter;
+import com.example.doctruyenapplication.api.ApiService;
+import com.example.doctruyenapplication.api.RetrofitClient;
 import com.example.doctruyenapplication.object.Book;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ListStory_Fragment extends Fragment {
 
@@ -21,6 +29,7 @@ public class ListStory_Fragment extends Fragment {
     private GridView listGrid;
     private ArrayList<Book> bookList;
     private BookAdapter bookAdapter;
+    private ApiService apiService;
 
     public static ListStory_Fragment newInstance(String storyType) {
         ListStory_Fragment fragment = new ListStory_Fragment();
@@ -39,14 +48,11 @@ public class ListStory_Fragment extends Fragment {
         ImageButton backButton = view.findViewById(R.id.back_button);
         ImageButton searchButton = view.findViewById(R.id.search_button);
         listGrid = view.findViewById(R.id.list_stories_grid);
-        bookList = new ArrayList<>();
-        bookList.add(new Book("https://cdn.myanimelist.net/images/anime/12/39497.jpg", "Boku no Pico", "Chapter 1"));
-        bookList.add(new Book("https://a.pinatafarm.com/500x377/d972ce254e/2-gay-black-mens-kissing.jpg", "Two black man kissing", "Chapter 2"));
-        bookList.add(new Book("https://ih1.redbubble.net/image.4595760308.2867/flat,750x,075,f-pad,750x1000,f8f8f8.jpg", "Why are you gay", "Chapter 3"));
 
-        // Create an adapter and set it to the GridView
-        bookAdapter = new BookAdapter(getActivity(), R.layout.item_book, bookList);
-        listGrid.setAdapter(bookAdapter);
+        apiService = RetrofitClient.getInstance().create(ApiService.class);
+        fetchBooks();
+
+
         // Set toolbar title based on selected story type
         if (getArguments() != null) {
             String storyType = getArguments().getString(ARG_STORY_TYPE);
@@ -60,6 +66,32 @@ public class ListStory_Fragment extends Fragment {
         searchButton.setOnClickListener(v -> navigateToSearch());
 
         return view;
+    }
+
+    private void fetchBooks(){
+        if(getArguments() == null){
+            return;
+        }
+        String storyType = getArguments().getString(ARG_STORY_TYPE);
+        Call<List<Book>> call = apiService.getBooks(0, 10, storyType);
+        call.enqueue(new Callback<List<Book>>() {
+            @Override
+            public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    bookList = (ArrayList<Book>) response.body();
+
+                    // Create an adapter and set it to the GridView
+                    bookAdapter = new BookAdapter(getActivity(), R.layout.item_book, bookList);
+                    listGrid.setAdapter(bookAdapter);
+                } else {
+                    Log.e("Retrofit", "Response error: " + response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Book>> call, Throwable t) {
+                Log.e("Retrofit", "Network error: " + t.getMessage(), t);
+            }
+        });
     }
 
     private void navigateToSearch() {

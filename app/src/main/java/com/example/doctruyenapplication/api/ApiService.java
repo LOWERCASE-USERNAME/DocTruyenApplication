@@ -16,4 +16,6 @@ public interface ApiService {
     Call<List<Book>> getAllBooks();
     @GET("books")
     Call<List<Book>> getBooks(@Query("pageNumber") int pageNumber, @Query("pageSize") int pageSize);
+    @GET("books")
+    Call<List<Book>> getBooks(@Query("pageNumber") int pageNumber, @Query("pageSize") int pageSize, @Query("genre") String genre);
 }
