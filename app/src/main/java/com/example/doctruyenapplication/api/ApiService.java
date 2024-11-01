@@ -1,5 +1,6 @@
 package com.example.doctruyenapplication.api;
 
+import com.example.doctruyenapplication.object.Account;
 import com.example.doctruyenapplication.object.Book;
 import com.example.doctruyenapplication.object.Genre;
 
@@ -22,7 +23,7 @@ public interface ApiService {
     Call<List<Book>> getBooks(@Query("pageNumber") int pageNumber, @Query("pageSize") int pageSize, @Query("genre") String genre);
 
     @GET("accounts/login")
-    Call<Account>login(@Query("email") String email,@Query("password") String password);
+    Call<Account>login(@Query("email") String email, @Query("password") String password);
 
     @POST("accounts/signup")
     Call<Account>signup(@Body Account account);
