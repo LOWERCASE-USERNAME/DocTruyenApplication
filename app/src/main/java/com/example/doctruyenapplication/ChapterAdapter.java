@@ -35,7 +35,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     @Override
     public void onBindViewHolder(@NonNull ChapterViewHolder holder, int position) {
         Chapter chapter = chapterList.get(position);
-        holder.chapterButton.setText(chapter.getChapterName());
+        holder.chapterButton.setText("Chapter " + chapter.getChapterOrder() + ": " + chapter.getChapterName());
 
         holder.chapterButton.setOnClickListener(v -> onChapterClickListener.onChapterClick(chapter));
     }

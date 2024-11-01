@@ -42,13 +42,13 @@
             android:layout_marginBottom="16dp" />
 
         <!-- New button for story info -->
-        <Button
-            android:id="@+id/story_info_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Thông tin về truyện"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp" />
+<!--        <Button-->
+<!--            android:id="@+id/story_info_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Thông tin về truyện"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginBottom="16dp" />-->
 
         <!-- Previous and Next Chapter buttons -->
         <LinearLayout

@@ -48,7 +48,7 @@ public class BookDetailFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.book_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_book_detail, container, false);
 
         titleTextView = view.findViewById(R.id.book_title);
         authorTextView = view.findViewById(R.id.book_author);
@@ -57,8 +57,8 @@ public class BookDetailFragment extends Fragment {
         ratingBar = view.findViewById(R.id.book_rating);
         chaptersTextView = view.findViewById(R.id.book_chapters);
         lastUpdateTextView = view.findViewById(R.id.last_update);
-        backButton = view.findViewById(R.id.back_button);
-        favoriteButton = view.findViewById(R.id.favorite_button);
+//        backButton = view.findViewById(R.id.back_button);
+//        favoriteButton = view.findViewById(R.id.favorite_button);
 //        downloadButton = view.findViewById(R.id.download_button);
 //        readNowButton = view.findViewById(R.id.read_now_button);
 //        followButton = view.findViewById(R.id.follow_button);
@@ -110,10 +110,10 @@ public class BookDetailFragment extends Fragment {
 //                    .addToBackStack(null)
 //                    .commit();
 //        });
-        backButton.setOnClickListener(v -> getActivity().onBackPressed());
-        favoriteButton.setOnClickListener(v -> {
-            // Handle favorite action
-        });
+//        backButton.setOnClickListener(v -> getActivity().onBackPressed());
+//        favoriteButton.setOnClickListener(v -> {
+//            // Handle favorite action
+//        });
 //        downloadButton.setOnClickListener(v -> {
 //            // Handle download action
 //        });

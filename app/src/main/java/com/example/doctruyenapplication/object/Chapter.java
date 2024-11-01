@@ -9,6 +9,9 @@ public class Chapter implements Serializable {
     private String content;
     private int bookId;
     private Book book;
+    private int nextChapterId;
+    private int prevChapterId;
+
 
     public Chapter() {
     }
@@ -67,5 +70,21 @@ public class Chapter implements Serializable {
 
     public void setBook(Book book) {
         this.book = book;
+    }
+
+    public int getNextChapterId() {
+        return nextChapterId;
+    }
+
+    public void setNextChapterId(int nextChapterId) {
+        this.nextChapterId = nextChapterId;
+    }
+
+    public int getPrevChapterId() {
+        return prevChapterId;
+    }
+
+    public void setPrevChapterId(int prevChapterId) {
+        this.prevChapterId = prevChapterId;
     }
 }

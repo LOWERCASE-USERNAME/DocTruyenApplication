@@ -54,15 +54,15 @@ public class ChapterListFragment extends Fragment {
 
         // Pass the chapter data to the ChapterFragment
         Bundle bundle = new Bundle();
-        bundle.putString("chapter_title", chapter.getChapterName());
+        bundle.putString("chapter_title", "Chapter " + chapter.getChapterOrder() + ": " + chapter.getChapterName());
         bundle.putString("chapter_content", chapter.getContent());
+        bundle.putInt("chapter_next", chapter.getNextChapterId());
+        bundle.putInt("chapter_prev", chapter.getPrevChapterId());
         chapterFragment.setArguments(bundle);
 
-        // Open the ChapterFragment
-        getParentFragmentManager().beginTransaction()
-                .replace(R.id.container, chapterFragment)
-                .addToBackStack(null)
-                .commit();
+        if (getActivity() instanceof BookDetailActivity) {
+            ((BookDetailActivity) getActivity()).replaceWithChapterFragment(chapterFragment);
+        }
     }
 
     private void fetchChapter(Chapter chapter){

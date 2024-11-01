@@ -1,5 +1,6 @@
 package com.example.doctruyenapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.os.Handler;
@@ -186,8 +187,11 @@ public class LibraryFragment extends Fragment {
 
     // Navigate to the ChapterDetailFragment with the selected book
     private void navigateToChapterDetailFragment(Book book) {
-        BookDetailFragment bookDetailFragment = BookDetailFragment.newInstance(book);
-        navigateToFragment(bookDetailFragment);
+//        BookDetailFragment bookDetailFragment = BookDetailFragment.newInstance(book);
+        Intent intent = new Intent(requireContext(), BookDetailActivity.class);
+        intent.putExtra("book", book);
+        startActivity(intent);
+//        navigateToFragment(bookDetailFragment);
     }
 
     private void navigateToListStoriesFragment(String storyType) {
