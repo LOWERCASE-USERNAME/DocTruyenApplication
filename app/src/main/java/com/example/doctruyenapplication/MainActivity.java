@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set default fragment (Library)
         if (savedInstanceState == null) {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_thuvien);
             replaceFragment(new LibraryFragment());
         }
 

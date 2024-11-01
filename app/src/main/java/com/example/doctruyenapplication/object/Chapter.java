@@ -1,12 +1,17 @@
 package com.example.doctruyenapplication.object;
 
-public class Chapter {
+import java.io.Serializable;
+
+public class Chapter implements Serializable {
     private int chapterId;
     private String chapterName;
     private int chapterOrder;
     private String content;
     private int bookId;
     private Book book;
+    private int nextChapterId;
+    private int prevChapterId;
+
 
     public Chapter() {
     }
@@ -65,5 +70,21 @@ public class Chapter {
 
     public void setBook(Book book) {
         this.book = book;
+    }
+
+    public int getNextChapterId() {
+        return nextChapterId;
+    }
+
+    public void setNextChapterId(int nextChapterId) {
+        this.nextChapterId = nextChapterId;
+    }
+
+    public int getPrevChapterId() {
+        return prevChapterId;
+    }
+
+    public void setPrevChapterId(int prevChapterId) {
+        this.prevChapterId = prevChapterId;
     }
 }
