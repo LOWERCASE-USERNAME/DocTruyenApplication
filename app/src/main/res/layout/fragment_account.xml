@@ -3,135 +3,146 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:orientation="vertical"
-    android:gravity="start">
+    android:gravity="start"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="#E0E0E0"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="48dp">
+        android:layout_marginBottom="48dp"
+        android:background="@color/basic"
+        android:orientation="horizontal"
+        android:padding="16dp">
 
         <ImageView
             android:layout_width="40dp"
-            android:layout_height="40dp"/>
+            android:layout_height="40dp" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center_vertical"
             android:paddingStart="16dp"
             android:text="Hoàng Giang"
-            android:textSize="16sp"
-            android:gravity="center_vertical" />
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:text="Đăng xuất >"
-            android:textColor="#757575"
-            android:gravity="center_vertical" />
+            android:textColor="#757575" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:divider="?android:attr/dividerHorizontal"
+        android:orientation="vertical"
         android:showDividers="middle">
 
         <LinearLayout
             android:id="@+id/option_register_to_write"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/basic"
             android:orientation="horizontal"
-            android:padding="16dp"
-            android:background="#F0F0F0">
+            android:padding="16dp">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_email"
-                android:contentDescription="Register to Write" />
+                android:contentDescription="Register to Write"
+                android:src="@drawable/ic_email" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:text="Đăng kí viết truyện"
-                android:textSize="16sp"
-                android:gravity="center_vertical" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/option_write_book"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#F0F0F0"
             android:orientation="horizontal"
-            android:padding="16dp"
-            android:background="#F0F0F0">
+            android:padding="16dp">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_create"
-                android:contentDescription="Write Story" />
+                android:contentDescription="Write Story"
+                android:src="@drawable/ic_create" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:text="Viết truyện"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:text="Viết truyện"
-                android:textSize="16sp"
-                android:gravity="center_vertical" />
+                android:gravity="center_vertical"
+                android:text="Viết truyện >"
+                android:id="@+id/write_book_text"
+                android:textColor="#757575" />
         </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/option_about_us"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/basic"
             android:orientation="horizontal"
-            android:padding="16dp"
-            android:background="#F0F0F0">
+            android:padding="16dp">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_group"
-                android:contentDescription="About us" />
+                android:contentDescription="About us"
+                android:src="@drawable/ic_group" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:text="Về đội ngũ phát triển"
-                android:textSize="16sp"
-                android:gravity="center_vertical" />
+                android:textSize="16sp" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/option_policy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#F0F0F0"
             android:orientation="horizontal"
-            android:padding="16dp"
-            android:background="#F0F0F0">
+            android:padding="16dp">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_policy"
-                android:contentDescription="Policy" />
+                android:contentDescription="Policy"
+                android:src="@drawable/ic_policy" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:text="Chính sách"
-                android:textSize="16sp"
-                android:gravity="center_vertical" />
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

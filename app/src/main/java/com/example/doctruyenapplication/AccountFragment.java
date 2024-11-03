@@ -8,26 +8,28 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
-public class AccountFragment extends  Fragment{
+public class AccountFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Nạp bố cục cho fragment này
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_account, container, false);
 
         LinearLayout optionRegisterToWrite = view.findViewById(R.id.option_register_to_write);
-        optionRegisterToWrite.setOnClickListener(v -> navigateToFragment(new AccountFragment()));
+        optionRegisterToWrite.setOnClickListener(v -> navigateToFragment(new AccountFragment())); // Assuming you have a RegisterFragment
 
         LinearLayout optionWriteBook = view.findViewById(R.id.option_write_book);
-        optionWriteBook.setOnClickListener(v -> navigateToFragment(new AccountFragment()));
+        TextView writeBookTextView = optionWriteBook.findViewById(R.id.write_book_text); // Assuming you give an ID to this TextView
+        writeBookTextView.setOnClickListener(v -> navigateToFragment(new ListbookWriteFragment())); // Navigate to AuthorListBookFragment
 
         LinearLayout optionAboutUs = view.findViewById(R.id.option_about_us);
-        optionAboutUs.setOnClickListener(v -> navigateToFragment(new AccountFragment()));
+        optionAboutUs.setOnClickListener(v -> navigateToFragment(new AccountFragment())); // Assuming you have an AboutUsFragment
 
         LinearLayout optionPolicy = view.findViewById(R.id.option_policy);
-        optionPolicy.setOnClickListener(v -> navigateToFragment(new AccountFragment()));
+        optionPolicy.setOnClickListener(v -> navigateToFragment(new AccountFragment())); // Assuming you have a PolicyFragment
 
         return view;
     }
