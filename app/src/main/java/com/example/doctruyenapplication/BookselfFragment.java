@@ -2,12 +2,15 @@ package com.example.doctruyenapplication;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 
@@ -16,6 +19,7 @@ import com.example.doctruyenapplication.api.ApiService;
 import com.example.doctruyenapplication.api.RetrofitClient;
 import com.example.doctruyenapplication.object.Book;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,19 +30,36 @@ public class BookselfFragment extends Fragment {
     private ApiService apiService;
     private BookHoriAdapter bookHoriAdapter;
     private GridView gridView;
+    private EditText searchEditText; // Add this
+    private List<Book> books; // List of all books
+    private List<Book> filteredBooks; // List for filtered books
     private boolean isSelectionMode = false;
-    List<Book> books;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bookself, container, false);
         gridView = view.findViewById(R.id.list_stories_grid);
+        searchEditText = view.findViewById(R.id.timkiem); // Initialize search EditText
 
-        //fetch initial data
+        // Fetch initial data
         apiService = RetrofitClient.getInstance().create(ApiService.class);
         fetchBooks();
 
         setupTrashButton(view); // Setup trash button click event
+
+        // Add a text change listener for search functionality
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterBooks(s.toString()); // Call filter method when text changes
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         return view;
     }
@@ -50,10 +71,8 @@ public class BookselfFragment extends Fragment {
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     books = response.body();
-                    for(Book b : response.body()){
-//                        Log.d("Retrofit", b.getChapters());
-                    }
-                    bookHoriAdapter = new BookHoriAdapter(requireContext(), R.layout.item_book_hori, books);
+                    filteredBooks = new ArrayList<>(books); // Initialize filtered list
+                    bookHoriAdapter = new BookHoriAdapter(requireContext(), R.layout.item_book_hori, filteredBooks);
                     gridView.setAdapter(bookHoriAdapter);
                 } else {
                     Log.e("Retrofit", "Response error: " + response.code());
@@ -67,15 +86,33 @@ public class BookselfFragment extends Fragment {
         });
     }
 
+    private void filterBooks(String query) {
+        // Clear the filtered list
+        filteredBooks.clear();
+
+        // If query is empty, add all books to filtered list
+        if (query.isEmpty()) {
+            filteredBooks.addAll(books);
+        } else {
+            // Filter books based on the search query
+            for (Book book : books) {
+                if (book.getBookName().toLowerCase().contains(query.toLowerCase())) {
+                    filteredBooks.add(book);
+                }
+            }
+        }
+
+        // Notify the adapter about data changes
+        bookHoriAdapter.notifyDataSetChanged();
+    }
+
     private void setupTrashButton(View view) {
         ImageButton trashButton = view.findViewById(R.id.delete_button);
         trashButton.setOnClickListener(v -> {
             if (isSelectionMode) {
-                // If in selection mode, show confirmation dialog to delete
-                showConfirmationDialog();
+                showConfirmationDialog(); // Show confirmation dialog to delete
             } else {
-                // If not in selection mode, enter selection mode
-                enterSelectionMode();
+                enterSelectionMode(); // Enter selection mode
             }
         });
     }
@@ -83,27 +120,21 @@ public class BookselfFragment extends Fragment {
     private void enterSelectionMode() {
         isSelectionMode = true; // Set selection mode to true
         bookHoriAdapter.setSelectionMode(true); // Enable selection mode in adapter
-        // Optionally, change the button appearance or text here
     }
 
     private void exitSelectionMode() {
         isSelectionMode = false; // Set selection mode to false
         bookHoriAdapter.setSelectionMode(false); // Disable selection mode in adapter
-        // Optionally, change the button appearance or text back to normal here
     }
 
     private void showConfirmationDialog() {
-        // Get selected books
-        List<Book> selectedBooks = bookHoriAdapter.getSelectedBooks();
+        List<Book> selectedBooks = bookHoriAdapter.getSelectedBooks(); // Get selected books
 
-        // Check if any books are selected
         if (selectedBooks.isEmpty()) {
-            // If no books are selected, exit selection mode
-            exitSelectionMode();
-            return; // Exit if no books are selected
+            exitSelectionMode(); // Exit selection mode if no books selected
+            return;
         }
 
-        // Show confirmation dialog
         new AlertDialog.Builder(requireContext())
                 .setTitle("Xác nhận xóa")
                 .setMessage("Bạn có muốn xóa những cuốn sách đã chọn không?")
