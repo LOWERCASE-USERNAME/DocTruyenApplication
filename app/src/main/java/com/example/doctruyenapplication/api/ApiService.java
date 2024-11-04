@@ -4,6 +4,7 @@ import com.example.doctruyenapplication.object.Account;
 import com.example.doctruyenapplication.object.Book;
 import com.example.doctruyenapplication.object.Chapter;
 import com.example.doctruyenapplication.object.Genre;
+import com.example.doctruyenapplication.object.User;
 
 import java.util.List;
 
@@ -27,7 +28,8 @@ public interface ApiService {
     Call<Chapter> getChapterById(@Path("id") int id);
     @GET("accounts/login")
     Call<Account>login(@Query("email") String email, @Query("password") String password);
-
     @POST("accounts/signup")
     Call<Account>signup(@Body Account account);
+    @GET("users/{accountId}")
+    Call<User> getUserByAccountId(@Path("accountId") int accountId);
 }

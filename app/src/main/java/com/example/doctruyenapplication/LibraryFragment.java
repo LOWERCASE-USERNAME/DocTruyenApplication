@@ -36,7 +36,6 @@ import retrofit2.Response;
 
 public class LibraryFragment extends Fragment {
     private GridView newStoriesGridView, bestStoriesGridView, anStoriesGridView;
-    private ArrayList<Book> bookList;
     private BookAdapter bookAdapter;
     private ImageButton menuButton;
     private ApiService apiService;
@@ -53,10 +52,12 @@ public class LibraryFragment extends Fragment {
         newStoriesGridView = view.findViewById(R.id.new_stories_grid);
         bestStoriesGridView = view.findViewById(R.id.best_stories_grid);
         anStoriesGridView = view.findViewById(R.id.an_stories_grid);
-        setupGridViewItemClick(new GridView[]{newStoriesGridView, bestStoriesGridView, anStoriesGridView});
+
 
         // Khởi tạo danh sách sách
-        fetchBooks();
+        fetchBooks(0, 3, newStoriesGridView);
+        fetchBooks(1, 3, bestStoriesGridView);
+        fetchBooks(2, 3, anStoriesGridView);
 
         // Khởi tạo ViewPager2 cho banner
         ViewPager2 viewPager = view.findViewById(R.id.banner_viewpager);
@@ -100,19 +101,18 @@ public class LibraryFragment extends Fragment {
         });
     }
 
-    private void fetchBooks(){
-        Call<List<Book>> call = apiService.getBooks(0, 3);
+    private void fetchBooks(int pageNumber, int pageSize, GridView gridView){
+        Call<List<Book>> call = apiService.getBooks(pageNumber, pageSize);
         call.enqueue(new Callback<List<Book>>() {
             @Override
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    bookList = (ArrayList<Book>) response.body();
+                    ArrayList<Book> bookList = (ArrayList<Book>) response.body();
 
                     // Gán adapter cho GridView
                     bookAdapter = new BookAdapter(getActivity(), R.layout.item_book, bookList);
-                    newStoriesGridView.setAdapter(bookAdapter);
-                    bestStoriesGridView.setAdapter(bookAdapter);
-                    anStoriesGridView.setAdapter(bookAdapter);
+                    gridView.setAdapter(bookAdapter);
+                    setupGridViewItemClick(gridView, bookList);
                 } else {
                     Log.e("Retrofit", "Response error: " + response.code());
                 }
@@ -176,13 +176,11 @@ public class LibraryFragment extends Fragment {
     }
 
     // Set up item click listeners for each GridView to navigate to the chapter details
-    private void setupGridViewItemClick(GridView[] gridViews) {
-        for(GridView gridView : gridViews){
-            gridView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
-                Book selectedBook = bookList.get(position);
-                navigateToChapterDetailFragment(selectedBook);
-            });
-        }
+    private void setupGridViewItemClick(GridView gridView, List<Book> bookList) {
+        gridView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
+            Book selectedBook = bookList.get(position);
+            navigateToChapterDetailFragment(selectedBook);
+        });
     }
 
     // Navigate to the ChapterDetailFragment with the selected book

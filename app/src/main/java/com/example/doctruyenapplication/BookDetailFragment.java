@@ -11,19 +11,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.doctruyenapplication.object.Book;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.io.File;
 
 public class BookDetailFragment extends Fragment {
     public static final String ARG_BOOK = "BOOK";
     private Book book;
 
+    private ImageView imvBookImage;
     private TextView titleTextView;
     private TextView authorTextView;
     private TextView descriptionTextView;
@@ -49,7 +54,7 @@ public class BookDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_book_detail, container, false);
-
+        imvBookImage = view.findViewById(R.id.book_image);
         titleTextView = view.findViewById(R.id.book_title);
         authorTextView = view.findViewById(R.id.book_author);
 //        descriptionTextView = view.findViewById(R.id.book_description);
@@ -69,6 +74,10 @@ public class BookDetailFragment extends Fragment {
             book = (Book)arguments.getSerializable(ARG_BOOK);
 
             if(book != null){
+                Glide.with(requireContext())
+                    .load(book.getPictureLink())
+                    .into(imvBookImage);
+
                 titleTextView.setText(book.getBookName());
                 authorTextView.setText(book.getAuthors().get(0).getAuthorName());
 //                descriptionTextView.setText(book.getDescription());

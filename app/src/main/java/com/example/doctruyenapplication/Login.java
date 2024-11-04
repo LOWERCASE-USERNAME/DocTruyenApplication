@@ -74,6 +74,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onResponse(Call<Account> call, Response<Account> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    Account account = response.body();
 
                     SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -81,6 +82,7 @@ public class Login extends AppCompatActivity {
                     editor.apply();
 
                     Intent intent = new Intent(Login.this, MainActivity.class);
+                    intent.putExtra("accountId", account.getAccountId());
                     startActivity(intent);
 
                     Toast.makeText(Login.this, "Login successful", Toast.LENGTH_SHORT).show();

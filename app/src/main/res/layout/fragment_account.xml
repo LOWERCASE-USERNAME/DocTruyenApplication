@@ -17,9 +17,12 @@
 
         <ImageView
             android:layout_width="40dp"
-            android:layout_height="40dp"/>
+            android:layout_height="40dp"
+            android:padding="4dp"
+            android:src="@drawable/profile"/>
 
         <TextView
+            android:id="@+id/tv_username"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
