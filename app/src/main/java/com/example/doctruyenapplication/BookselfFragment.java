@@ -21,6 +21,7 @@ import com.example.doctruyenapplication.adapter.BookHoriAdapter;
 import com.example.doctruyenapplication.api.ApiService;
 import com.example.doctruyenapplication.api.RetrofitClient;
 import com.example.doctruyenapplication.object.Book;
+import com.example.doctruyenapplication.object.BookReadHistory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class BookselfFragment extends Fragment {
     private GridView gridView;
     private EditText searchEditText; // Add this
     private List<Book> books; // List of all books
+    private List<BookReadHistory> readbooks;
     private List<Book> filteredBooks; // List for filtered books
     private boolean isSelectionMode = false;
 
@@ -43,6 +45,7 @@ public class BookselfFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_bookself, container, false);
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+        int accountId = sharedPreferences.getInt("accountId", 0);
         if(!isLoggedIn){
             Intent intent = new Intent(requireActivity(), Login.class);
             startActivity(intent);
@@ -55,7 +58,7 @@ public class BookselfFragment extends Fragment {
 
         // Fetch initial data
         apiService = RetrofitClient.getInstance().create(ApiService.class);
-        fetchBooks();
+        fetchBooks(accountId);
 
         setupTrashButton(view); // Setup trash button click event
 
@@ -76,14 +79,18 @@ public class BookselfFragment extends Fragment {
         return view;
     }
 
-    private void fetchBooks() {
-        Call<List<Book>> call = apiService.getAllBooks();
-        call.enqueue(new Callback<List<Book>>() {
+    private void fetchBooks(int accountId) {
+        Call<List<BookReadHistory>> call = apiService.getReadBooks(accountId);
+        call.enqueue(new Callback<List<BookReadHistory>>() {
             @Override
-            public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
+            public void onResponse(Call<List<BookReadHistory>> call, Response<List<BookReadHistory>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    books = response.body();
-                    filteredBooks = new ArrayList<>(books); // Initialize filtered list
+                    readbooks = response.body();
+                    filteredBooks = new ArrayList<>();
+                    for(BookReadHistory readbook : readbooks){
+                        filteredBooks.add(readbook.getBook());
+                    }
+                     // Initialize filtered list
                     bookHoriAdapter = new BookHoriAdapter(requireContext(), R.layout.item_book_hori, filteredBooks);
                     gridView.setAdapter(bookHoriAdapter);
                 } else {
@@ -92,7 +99,7 @@ public class BookselfFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Book>> call, Throwable t) {
+            public void onFailure(Call<List<BookReadHistory>> call, Throwable t) {
                 Log.e("Retrofit", "Network error: " + t.getMessage(), t);
             }
         });
