@@ -18,9 +18,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class AccountFragment extends Fragment{
-    Button btnLogin,btnLogout;
+import com.example.doctruyenapplication.api.ApiService;
+import com.example.doctruyenapplication.api.RetrofitClient;
+import com.example.doctruyenapplication.object.Genre;
+import com.example.doctruyenapplication.object.User;
 
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class AccountFragment extends Fragment{
+    TextView tvUsername;
+    Button btnLogin,btnLogout;
+    private final ApiService apiService = RetrofitClient.getInstance().create(ApiService.class);
+    User user;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -42,12 +55,16 @@ public class AccountFragment extends Fragment{
 
         btnLogin = view.findViewById(R.id.btn_login);
         btnLogout = view.findViewById(R.id.btn_logout);
+        tvUsername = view.findViewById(R.id.tv_username);
+
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+        int accountId = sharedPreferences.getInt("accountId", 0);
 
         if (isLoggedIn) {
             btnLogout.setVisibility(View.VISIBLE);
             btnLogin.setVisibility(View.GONE);
+            fetchUser(accountId);
         } else {
             btnLogin.setVisibility(View.VISIBLE);
             btnLogout.setVisibility(View.GONE);
@@ -66,12 +83,33 @@ public class AccountFragment extends Fragment{
                 startActivity(intent);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("isLoggedIn", false); // Lưu cờ đăng nhập
+                editor.putInt("accountId", 0);
                 editor.apply();
             }
         });
 
 
         return view;
+    }
+
+    private void fetchUser(int accountId){
+        Call<User> call = apiService.getUserByAccountId(accountId);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    user = response.body();
+                    tvUsername.setText(!user.getUserName().isEmpty() ? user.getUserName() : "Username");
+                } else {
+                    Log.e("Retrofit", "Response error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.e("Retrofit", "Network error: " + t.getMessage());
+            }
+        });
     }
 
     private void navigateToFragment(Fragment fragment) {

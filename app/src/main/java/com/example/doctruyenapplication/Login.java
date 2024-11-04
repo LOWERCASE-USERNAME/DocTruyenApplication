@@ -74,10 +74,12 @@ public class Login extends AppCompatActivity {
             @Override
             public void onResponse(Call<Account> call, Response<Account> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    Account account = response.body();
 
                     SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("isLoggedIn", true); // Lưu cờ đăng nhập
+                    editor.putInt("accountId", account.getAccountId());
                     editor.apply();
 
                     Intent intent = new Intent(Login.this, MainActivity.class);
