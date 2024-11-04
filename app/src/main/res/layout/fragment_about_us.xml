@@ -12,7 +12,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="About Us"
+            android:text="@string/about_us_title"
             android:textSize="24sp"
             android:textStyle="bold"
             android:paddingBottom="16dp" />
@@ -20,19 +20,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dự án PRM392 DocTruyenApplication là một ứng dụng đọc truyện cung cấp kho truyện phong phú với nhiều thể loại cho người dùng."
+            android:text="@string/about_us_description"
             android:paddingBottom="8dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sứ mệnh của chúng tôi là đem đến trải nghiệm đọc truyện tốt nhất với các tác phẩm chất lượng và giao diện thân thiện với người dùng."
+            android:text="@string/about_us_mission"
             android:paddingBottom="8dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Đội ngũ phát triển:"
+            android:text="@string/development_team"
             android:textStyle="bold"
             android:paddingTop="16dp"
             android:paddingBottom="4dp" />
@@ -40,37 +40,37 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lê Ngọc Quyền - Thành viên nhóm phát triển"
+            android:text="@string/member_le_ngoc_quyen"
             android:paddingBottom="4dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nguyễn Hoàng - Thành viên nhóm phát triển"
+            android:text="@string/member_nguyen_hoang"
             android:paddingBottom="4dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nguyễn Nhật Minh - Thành viên nhóm phát triển"
+            android:text="@string/member_nguyen_nhat_minh"
             android:paddingBottom="4dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thế Phương - Thành viên nhóm phát triển"
+            android:text="@string/member_the_phuong"
             android:paddingBottom="4dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Trần Hoàng Giang - Thành viên nhóm phát triển"
+            android:text="@string/member_tran_hoang_giang"
             android:paddingBottom="4dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Liên hệ chúng tôi qua email: support@doctruyenapp.com"
+            android:text="@string/contact_us"
             android:paddingTop="16dp" />
     </LinearLayout>
 </ScrollView>

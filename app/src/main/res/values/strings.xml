@@ -1,3 +1,14 @@
+<!-- res/values/strings.xml -->
 <resources>
     <string name="app_name">DocTruyenApplication</string>
+    <string name="about_us_title">About Us</string>
+    <string name="about_us_description">Dự án PRM392 DocTruyenApplication là một ứng dụng đọc truyện cung cấp kho truyện phong phú với nhiều thể loại cho người dùng.</string>
+    <string name="about_us_mission">Sứ mệnh của chúng tôi là đem đến trải nghiệm đọc truyện tốt nhất với các tác phẩm chất lượng và giao diện thân thiện với người dùng.</string>
+    <string name="development_team">Đội ngũ phát triển:</string>
+    <string name="member_le_ngoc_quyen">Lê Ngọc Quyền - Thành viên nhóm phát triển</string>
+    <string name="member_nguyen_hoang">Nguyễn Hoàng - Thành viên nhóm phát triển</string>
+    <string name="member_nguyen_nhat_minh">Nguyễn Nhật Minh - Thành viên nhóm phát triển</string>
+    <string name="member_the_phuong">Thế Phương - Thành viên nhóm phát triển</string>
+    <string name="member_tran_hoang_giang">Trần Hoàng Giang - Thành viên nhóm phát triển</string>
+    <string name="contact_us">Liên hệ chúng tôi qua email: support@doctruyenapp.com</string>
 </resources>
