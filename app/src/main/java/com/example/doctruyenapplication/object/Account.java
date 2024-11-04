@@ -1,11 +1,11 @@
 package com.example.doctruyenapplication.object;
 import java.util.List;
 public class Account {
-    private int AccountId;
-    private String Email;
-    private String Password;
-    private  int RoleId;
-    public List<Role> Role;
+    private int accountId;
+    private String email;
+    private String password;
+    private  int roleId;
+    public List<Role> role;
 
     public Account() {
     }
@@ -13,48 +13,48 @@ public class Account {
 
     public Account(String email, String password, int roleId) {
 
-        Email = email;
-        Password = password;
-        RoleId = roleId;
+        this.email = email;
+        this.password = password;
+        this.roleId = roleId;
     }
 
     public int getAccountId() {
-        return AccountId;
+        return accountId;
     }
 
     public void setAccountId(int accountId) {
-        AccountId = accountId;
+        this.accountId = accountId;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getPasswordHarsh() {
-        return Password;
+        return password;
     }
 
     public void setPasswordHarsh(String passwordHarsh) {
-        Password = passwordHarsh;
+        password = passwordHarsh;
     }
 
     public int getRoleId() {
-        return RoleId;
+        return roleId;
     }
 
     public void setRoleId(int roleId) {
-        RoleId = roleId;
+        this.roleId = roleId;
     }
 
     public List<Role> getRole() {
-        return Role;
+        return role;
     }
 
     public void setRole(List<Role> role) {
-        Role = role;
+        this.role = role;
     }
 }

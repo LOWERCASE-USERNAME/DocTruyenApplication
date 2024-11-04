@@ -79,10 +79,10 @@ public class Login extends AppCompatActivity {
                     SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("isLoggedIn", true); // Lưu cờ đăng nhập
+                    editor.putInt("accountId", account.getAccountId());
                     editor.apply();
 
                     Intent intent = new Intent(Login.this, MainActivity.class);
-                    intent.putExtra("accountId", account.getAccountId());
                     startActivity(intent);
 
                     Toast.makeText(Login.this, "Login successful", Toast.LENGTH_SHORT).show();

@@ -30,6 +30,6 @@ public interface ApiService {
     Call<Account>login(@Query("email") String email, @Query("password") String password);
     @POST("accounts/signup")
     Call<Account>signup(@Body Account account);
-    @GET("users/{accountId}")
+    @GET("users/get-by-account-id/{accountId}")
     Call<User> getUserByAccountId(@Path("accountId") int accountId);
 }
