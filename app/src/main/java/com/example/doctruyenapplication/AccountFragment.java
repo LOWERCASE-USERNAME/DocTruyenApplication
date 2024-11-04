@@ -24,7 +24,8 @@ public class AccountFragment extends Fragment {
         optionAboutUs.setOnClickListener(v -> navigateToFragment(new AboutUsFragment()));
 
         LinearLayout optionPolicy = view.findViewById(R.id.option_policy);
-        optionPolicy.setOnClickListener(v -> navigateToFragment(new AccountFragment()));
+        // Added code to navigate to the PolicyFragment
+        optionPolicy.setOnClickListener(v -> navigateToFragment(new PolicyFragment()));
 
         return view;
     }

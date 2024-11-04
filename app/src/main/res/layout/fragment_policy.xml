@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chính Sách Sử Dụng Ứng Dụng Đọc Truyện"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingBottom="16dp" />
+
+        <!-- Điều khoản sử dụng -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1. Điều khoản sử dụng"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingTop="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Người dùng cần tuân thủ các quy định của ứng dụng, không đăng tải nội dung vi phạm pháp luật hoặc vi phạm bản quyền."
+            android:textSize="14sp"
+            android:paddingTop="4dp" />
+
+        <!-- Chính sách bảo mật -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2. Chính sách bảo mật"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingTop="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ứng dụng cam kết bảo mật thông tin cá nhân của người dùng và chỉ sử dụng cho mục đích cung cấp dịch vụ. Thông tin sẽ không được chia sẻ với bên thứ ba khi chưa có sự đồng ý của người dùng."
+            android:textSize="14sp"
+            android:paddingTop="4dp" />
+
+        <!-- Chính sách bản quyền -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3. Chính sách bản quyền"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingTop="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tất cả các nội dung truyện trên ứng dụng đều thuộc bản quyền của tác giả và nhà xuất bản. Người dùng không được sao chép, phát tán hoặc sử dụng cho mục đích thương mại khi chưa có sự đồng ý từ chủ sở hữu bản quyền."
+            android:textSize="14sp"
+            android:paddingTop="4dp" />
+
+        <!-- Chính sách nội dung và bình luận -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4. Chính sách nội dung và bình luận"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingTop="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Người dùng có thể để lại bình luận dưới mỗi chương truyện. Tuy nhiên, bình luận phải phù hợp với quy định, không xúc phạm hay đả kích tác giả và người đọc khác."
+            android:textSize="14sp"
+            android:paddingTop="4dp" />
+
+        <!-- Chính sách cập nhật và thay đổi -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5. Chính sách cập nhật và thay đổi"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingTop="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ứng dụng có quyền cập nhật, thay đổi nội dung và chính sách mà không cần thông báo trước. Người dùng có trách nhiệm cập nhật và tuân thủ các thay đổi mới nhất."
+            android:textSize="14sp"
+            android:paddingTop="4dp" />
+    </LinearLayout>
+</ScrollView>
