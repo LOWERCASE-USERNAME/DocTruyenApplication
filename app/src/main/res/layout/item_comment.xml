@@ -6,19 +6,19 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/comment_username"
+        android:id="@+id/username_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Username"
+        android:textColor="@color/black"
         android:textStyle="bold"
-        android:textSize="14sp"
-        android:paddingBottom="4dp" />
-
-    <TextView
-        android:id="@+id/comment_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Comment content goes here"
         android:textSize="14sp" />
 
+    <TextView
+        android:id="@+id/content_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comment content here"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
 </LinearLayout>

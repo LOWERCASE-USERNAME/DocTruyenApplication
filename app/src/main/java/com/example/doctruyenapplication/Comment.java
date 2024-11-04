@@ -1,19 +1,35 @@
 package com.example.doctruyenapplication;
 
 public class Comment {
-    private String text;
-    private boolean isAuthor;
+    private int id;
+    private String username;
+    private String content;
+    private int storyId; // ID của truyện mà comment thuộc về
 
-    public Comment(String text, boolean isAuthor) {
-        this.text = text;
-        this.isAuthor = isAuthor;
+    public Comment(String username, String content) {
+        this.username = username;
+        this.content = content;
     }
 
-    public String getText() {
-        return text;
+    // Thêm constructor khác nếu cần thiết và các getter, setter
+
+    public int getId() {
+        return id;
     }
 
-    public boolean isAuthor() {
-        return isAuthor;
+    public String getUsername() {
+        return username;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setStoryId(int storyId) {
+        this.storyId = storyId;
+    }
+
+    public int getStoryId() {
+        return storyId;
     }
 }

@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +17,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.doctruyenapplication.CommentApi;
+import com.example.doctruyenapplication.api.RetrofitClient;
+import com.example.doctruyenapplication.Comment;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CommentFragment extends Fragment {
 
@@ -26,6 +35,7 @@ public class CommentFragment extends Fragment {
     private Button sendButton;
     private List<Comment> commentList;
     private CommentAdapter commentAdapter;
+    private CommentApi commentAPI;
 
     @Nullable
     @Override
@@ -36,7 +46,6 @@ public class CommentFragment extends Fragment {
         commentRecyclerView = view.findViewById(R.id.comment_recycler_view);
         commentInput = view.findViewById(R.id.comment_input);
         sendButton = view.findViewById(R.id.send_button);
-
         TextView commentTitle = view.findViewById(R.id.comment_title);
         TextView commentsCount = view.findViewById(R.id.comments_count);
         Spinner sortSpinner = view.findViewById(R.id.sort_spinner);
@@ -48,18 +57,19 @@ public class CommentFragment extends Fragment {
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         commentRecyclerView.setAdapter(commentAdapter);
 
-        // Load initial comments
+        // Initialize API client
+        commentAPI = RetrofitClient.getInstance().create(CommentApi.class);
+
+        // Load initial comments from API
         loadComments();
 
         // Send button click listener to add new comment
         sendButton.setOnClickListener(v -> {
             String commentText = commentInput.getText().toString().trim();
             if (!commentText.isEmpty()) {
-                // Add comment to list and update UI
-                Comment newComment = new Comment("User Name", commentText);
-                commentList.add(0, newComment); // Add at the top of the list
-                commentAdapter.notifyItemInserted(0);
-                commentRecyclerView.scrollToPosition(0);
+                // Tạo comment mới và gọi API để lưu vào database
+                Comment newComment = new Comment("User Name", commentText); // Add other fields as necessary
+                postComment(newComment);
                 commentInput.setText(""); // Clear input
             }
         });
@@ -70,64 +80,47 @@ public class CommentFragment extends Fragment {
         return view;
     }
 
-    // Load initial comments (for example purposes)
+    // Load initial comments from API
     private void loadComments() {
-        commentList.add(new Comment("Granny Tân", "Mình cho rằng lợi ích duy nhất..."));
-        commentList.add(new Comment("Hwang Long", "Tất cả lập luận và lý luận của bạn..."));
-        commentAdapter.notifyDataSetChanged();
-    }
-
-    // Comment model class
-    private static class Comment {
-        String username;
-        String content;
-
-        public Comment(String username, String content) {
-            this.username = username;
-            this.content = content;
-        }
-
-        public String getUsername() { return username; }
-        public String getContent() { return content; }
-    }
-
-    // Adapter for RecyclerView
-    private static class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
-
-        private final List<Comment> comments;
-
-        public CommentAdapter(List<Comment> comments) {
-            this.comments = comments;
-        }
-
-        @NonNull
-        @Override
-        public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment, parent, false);
-            return new CommentViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
-            Comment comment = comments.get(position);
-            holder.usernameTextView.setText(comment.getUsername());
-            holder.contentTextView.setText(comment.getContent());
-        }
-
-        @Override
-        public int getItemCount() {
-            return comments.size();
-        }
-
-        public static class CommentViewHolder extends RecyclerView.ViewHolder {
-            TextView usernameTextView;
-            TextView contentTextView;
-
-            public CommentViewHolder(@NonNull View itemView) {
-                super(itemView);
-                usernameTextView = itemView.findViewById(R.id.comment_username);
-                contentTextView = itemView.findViewById(R.id.comment_content);
+        int storyId = 1; // Replace with the actual story ID
+        commentAPI.getComments(storyId).enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    commentList.clear();
+                    commentList.addAll(response.body());
+                    commentAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getContext(), "Failed to load comments", Toast.LENGTH_SHORT).show();
+                }
             }
-        }
+
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // Post new comment to API
+    private void postComment(Comment comment) {
+        commentAPI.postComment(comment).enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    // Add comment to list and update UI
+                    commentList.add(0, response.body());
+                    commentAdapter.notifyItemInserted(0);
+                    commentRecyclerView.scrollToPosition(0);
+                } else {
+                    Toast.makeText(getContext(), "Failed to post comment", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

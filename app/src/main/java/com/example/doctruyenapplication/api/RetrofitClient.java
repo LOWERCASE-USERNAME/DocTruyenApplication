@@ -26,7 +26,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "https://10.0.2.2:7115/api/"; // Replace with your base URL
+    private static final String BASE_URL = "https://10.0.2.2:7115/api/"; // Sử dụng HTTP cho máy chủ cục bộ
     private static Retrofit retrofit;
 
     public static Retrofit getInstance() {
