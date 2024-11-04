@@ -1,10 +1,12 @@
 package com.example.doctruyenapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -52,7 +54,6 @@ public class ListStory_Fragment extends Fragment {
         apiService = RetrofitClient.getInstance().create(ApiService.class);
         fetchBooks();
 
-
         // Set toolbar title based on selected story type
         if (getArguments() != null) {
             String storyType = getArguments().getString(ARG_STORY_TYPE);
@@ -60,7 +61,7 @@ public class ListStory_Fragment extends Fragment {
         }
 
         // Set up back button click listener
-            backButton.setOnClickListener(v -> getActivity().getSupportFragmentManager().popBackStack());
+        backButton.setOnClickListener(v -> getActivity().getSupportFragmentManager().popBackStack());
 
         // Set up search button click listener
         searchButton.setOnClickListener(v -> navigateToSearch());
@@ -68,8 +69,8 @@ public class ListStory_Fragment extends Fragment {
         return view;
     }
 
-    private void fetchBooks(){
-        if(getArguments() == null){
+    private void fetchBooks() {
+        if (getArguments() == null) {
             return;
         }
         String storyType = getArguments().getString(ARG_STORY_TYPE);
@@ -78,15 +79,19 @@ public class ListStory_Fragment extends Fragment {
             @Override
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    bookList = (ArrayList<Book>) response.body();
+                    bookList = new ArrayList<>(response.body());
 
                     // Create an adapter and set it to the GridView
                     bookAdapter = new BookAdapter(getActivity(), R.layout.item_book, bookList);
                     listGrid.setAdapter(bookAdapter);
+
+                    // Set up item click listener
+                    setupGridViewItemClick();
                 } else {
                     Log.e("Retrofit", "Response error: " + response.code());
                 }
             }
+
             @Override
             public void onFailure(Call<List<Book>> call, Throwable t) {
                 Log.e("Retrofit", "Network error: " + t.getMessage(), t);
@@ -94,10 +99,23 @@ public class ListStory_Fragment extends Fragment {
         });
     }
 
+    private void setupGridViewItemClick() {
+        listGrid.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
+            Book selectedBook = bookList.get(position);
+            navigateToBookDetail(selectedBook);
+        });
+    }
+
+    private void navigateToBookDetail(Book book) {
+        Intent intent = new Intent(requireContext(), BookDetailActivity.class);
+        intent.putExtra("book", book);
+        startActivity(intent);
+    }
+
     private void navigateToSearch() {
-        Fragment searchFragment = new SearchFragment(); // Replace with your actual SearchFragment class
+        Fragment searchFragment = new SearchFragment();
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, searchFragment) // Replace with your container ID
+                .replace(R.id.container, searchFragment)
                 .addToBackStack(null)
                 .commit();
     }
