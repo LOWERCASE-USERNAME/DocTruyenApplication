@@ -32,4 +32,8 @@ public interface ApiService {
     Call<Account>signup(@Body Account account);
     @GET("users/get-by-account-id/{accountId}")
     Call<User> getUserByAccountId(@Path("accountId") int accountId);
+    @POST("books")
+    Call<Book> postBook(@Body Book book);
+    @POST("chapters")
+    Call<Chapter> postChapter(@Body Chapter chapter);
 }

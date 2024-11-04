@@ -104,17 +104,22 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <Spinner
-                        android:id="@+id/genre_spinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <LinearLayout
-                        android:id="@+id/selected_genres_container"
+                    <Button
+                        android:id="@+id/select_genres_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingTop="8dp" />
+                        android:text="Select Genres"/>
+<!--                    <Spinner-->
+<!--                        android:id="@+id/genre_spinner"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:id="@+id/selected_genres_container"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:paddingTop="8dp" />-->
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
