@@ -60,7 +60,7 @@ public class ListStory_Fragment extends Fragment {
         }
 
         // Set up back button click listener
-        backButton.setOnClickListener(v -> getActivity().getSupportFragmentManager().popBackStack());
+            backButton.setOnClickListener(v -> getActivity().getSupportFragmentManager().popBackStack());
 
         // Set up search button click listener
         searchButton.setOnClickListener(v -> navigateToSearch());
