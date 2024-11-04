@@ -18,7 +18,7 @@ import java.util.List;
 
 public class BookAdapter extends ArrayAdapter<Book> {
     private Context context;
-    private List<Book> bookList; // Danh sách sách
+    private List<Book> bookList;
 
     public BookAdapter(Context context, int resource, List<Book> objects) {
         super(context, resource, objects);
@@ -42,6 +42,9 @@ public class BookAdapter extends ArrayAdapter<Book> {
         clear();
         addAll(filteredList);
         notifyDataSetChanged();
+
+        // Update the reference list
+        bookList = filteredList;
     }
 
     @Override
@@ -64,12 +67,21 @@ public class BookAdapter extends ArrayAdapter<Book> {
         if (position >= 0 && position < bookList.size()) {
             Book book = bookList.get(position);
             holder.titleTextView.setText(book.getBookName());
+
+            // Check for null chapters
             List<Chapter> chapters = book.getChapters();
-            if(chapters != null){
+            if (chapters != null && !chapters.isEmpty()) {
                 Chapter newestChapter = chapters.get(chapters.size() - 1);
                 holder.chapterTextView.setText(String.format("Chapter %d: %s", newestChapter.getChapterOrder(), newestChapter.getChapterName()));
+            } else {
+                holder.chapterTextView.setText("No chapters available");
             }
-            Glide.with(context).load(book.getPictureLink()).into(holder.imageView);
+
+            // Load image with Glide and a placeholder
+            Glide.with(context)
+                    .load(book.getPictureLink())
+                    .into(holder.imageView);
+
         }
 
         return convertView;
