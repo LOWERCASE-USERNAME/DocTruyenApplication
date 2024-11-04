@@ -5,13 +5,14 @@ import com.example.doctruyenapplication.object.Book;
 import com.example.doctruyenapplication.object.Chapter;
 import com.example.doctruyenapplication.object.Genre;
 import com.example.doctruyenapplication.object.User;
-
+import com.example.doctruyenapplication.object.BookReadHistory;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -32,6 +33,15 @@ public interface ApiService {
     Call<Account>signup(@Body Account account);
     @GET("users/get-by-account-id/{accountId}")
     Call<User> getUserByAccountId(@Path("accountId") int accountId);
+
+    @GET("readHistory/getBookChapter/{accountId}")
+    Call<List<BookReadHistory>> getReadBooks(@Path("accountId") int accountId);
+    @PUT("readHistory/update/{accountId}/{bookId}/{chapterId}")
+    Call<Void> updateReadHistory(
+            @Path("accountId") int accountId,
+            @Path("bookId") int bookId,
+            @Path("chapterId") int chapterId
+    );
     @POST("books")
     Call<Book> postBook(@Body Book book);
     @POST("chapters")

@@ -54,6 +54,8 @@ public class ChapterListFragment extends Fragment {
 
         // Pass the chapter data to the ChapterFragment
         Bundle bundle = new Bundle();
+        bundle.putInt("bookId",chapter.getBookId());
+        bundle.putInt("chapterId",chapter.getChapterId());
         bundle.putString("chapter_title", "Chapter " + chapter.getChapterOrder() + ": " + chapter.getChapterName());
         bundle.putString("chapter_content", chapter.getContent());
         bundle.putInt("chapter_next", chapter.getNextChapterId());
