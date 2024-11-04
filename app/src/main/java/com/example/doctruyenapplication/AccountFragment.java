@@ -47,10 +47,11 @@ public class AccountFragment extends Fragment{
         writeBookTextView.setOnClickListener(v -> navigateToFragment(new ListbookWriteFragment())); // Navigate to AuthorListBookFragment
 
         LinearLayout optionAboutUs = view.findViewById(R.id.option_about_us);
-        optionAboutUs.setOnClickListener(v -> navigateToFragment(new AccountFragment())); // Assuming you have an AboutUsFragment
+        optionAboutUs.setOnClickListener(v -> navigateToFragment(new AboutUsFragment()));
 
         LinearLayout optionPolicy = view.findViewById(R.id.option_policy);
-        optionPolicy.setOnClickListener(v -> navigateToFragment(new AccountFragment())); // Assuming you have a PolicyFragment
+        // Added code to navigate to the PolicyFragment
+        optionPolicy.setOnClickListener(v -> navigateToFragment(new PolicyFragment()));
 
         btnLogin = view.findViewById(R.id.btn_login);
         btnLogout = view.findViewById(R.id.btn_logout);
