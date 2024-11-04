@@ -3,17 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:gravity="start"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="start">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="48dp"
-        android:background="@color/basic"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@color/basic"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="48dp">
 
         <ImageView
             android:layout_width="40dp"
@@ -23,68 +23,79 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center_vertical"
             android:paddingStart="16dp"
+            android:textStyle="bold"
             android:text="Hoàng Giang"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:gravity="center_vertical" />
 
-        <TextView
+        <Button
+            android:id="@+id/btn_logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="Đăng xuất >"
-            android:textColor="#757575" />
+            android:text="Đăng xuất"
+            android:background="?attr/selectableItemBackground"
+            android:textColor="#757575"
+            android:gravity="center_vertical" />
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đăng nhập"
+            android:background="?attr/selectableItemBackground"
+            android:textColor="#757575"
+             />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="?android:attr/dividerHorizontal"
         android:orientation="vertical"
+        android:divider="?android:attr/dividerHorizontal"
         android:showDividers="middle">
 
+<!--        android:background="@color/basic"-->
         <LinearLayout
             android:id="@+id/option_register_to_write"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/basic"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:background="#E0E0E0">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:contentDescription="Register to Write"
-                android:src="@drawable/ic_email" />
+                android:src="@drawable/ic_email"
+                android:contentDescription="Register to Write" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:text="Đăng kí viết truyện"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:gravity="center_vertical" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/option_write_book"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F0F0F0"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:background="#F0F0F0">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:contentDescription="Write Story"
-                android:src="@drawable/ic_create" />
+                android:src="@drawable/ic_create"
+                android:contentDescription="Write Story" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:text="Viết truyện"
                 android:textSize="16sp" />
@@ -98,51 +109,51 @@
                 android:textColor="#757575" />
         </LinearLayout>
 
-
+<!--        android:background="@color/basic"-->
         <LinearLayout
             android:id="@+id/option_about_us"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/basic"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:background="#E0E0E0">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:contentDescription="About us"
-                android:src="@drawable/ic_group" />
+                android:src="@drawable/ic_group"
+                android:contentDescription="About us" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:text="Về đội ngũ phát triển"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:gravity="center_vertical" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/option_policy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F0F0F0"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:background="#F0F0F0">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:contentDescription="Policy"
-                android:src="@drawable/ic_policy" />
+                android:src="@drawable/ic_policy"
+                android:contentDescription="Policy" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:text="Chính sách"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:gravity="center_vertical" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

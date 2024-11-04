@@ -1,8 +1,9 @@
 package com.example.doctruyenapplication.object;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Author {
+public class Author implements Serializable {
     private int authorId;
     private String authorName, description, pictureLink;
     private List<Book> books;
