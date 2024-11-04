@@ -1,5 +1,7 @@
 package com.example.doctruyenapplication;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,12 +39,13 @@ public class ChapterFragment extends Fragment {
     private int nextChapterId = -1;
     private int prevChapterId = -1;
     private ApiService apiService;
-
+    private int bookId,chapterId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chapter, container, false);
         apiService = RetrofitClient.getInstance().create(ApiService.class);
+
         // Initialize UI components
         chapterTitle = view.findViewById(R.id.chapter_title);
         chapterContent = view.findViewById(R.id.chapter_content);
@@ -51,9 +54,15 @@ public class ChapterFragment extends Fragment {
         commentButton = view.findViewById(R.id.comment_button);
         scrollView = view.findViewById(R.id.scroll_view);
 
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+
+        int accountId = sharedPreferences.getInt("accountId", 0);
+
         // Get arguments passed from the previous fragment
         Bundle bundle = getArguments();
         if (bundle != null) {
+            chapterId = bundle.getInt("chapterId");
+            bookId = bundle.getInt("bookId");
             String title = bundle.getString("chapter_title");
             String content = bundle.getString("chapter_content");
             nextChapterId = bundle.getInt("chapter_next");
@@ -65,9 +74,12 @@ public class ChapterFragment extends Fragment {
             Toast.makeText(requireContext(), "Chapter argument not found", Toast.LENGTH_SHORT).show();
         }
 
+        updateReadHistory(accountId,bookId,chapterId);
+
         nextChapterButton.setOnClickListener(v -> {
             if(nextChapterId != -1)
                 fetchChapter(nextChapterId);
+
         });
 
         previousChapterButton.setOnClickListener(v -> {
@@ -91,12 +103,14 @@ public class ChapterFragment extends Fragment {
 
     private void fetchChapter(int chapterId){
         Call<Chapter> call = apiService.getChapterById(chapterId);
+
         call.enqueue(new Callback<Chapter>() {
             @Override
             public void onResponse(Call<Chapter> call, Response<Chapter> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Chapter resultChapter = response.body();
                     loadChapter(resultChapter);
+
                 } else {
                     Log.e("Retrofit", "Response error: " + response.code());
                 }
@@ -107,6 +121,26 @@ public class ChapterFragment extends Fragment {
             }
         });
     }
+    private void updateReadHistory(int accountId,int bookId,int chapterId){
+        Call<Void> call = apiService.updateReadHistory(accountId,bookId,chapterId);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    // Chapter ID and Book ID have been saved successfully on the server
+                    Log.d("Retrofit", "Read history updated successfully.");
+                    // Optionally, you can call loadChapter or any additional logic here
+                } else {
+                    Log.e("Retrofit", "Response error: " + response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("Retrofit", "Network error: " + t.getMessage(), t);
+            }
+        });
+    }
+
 
     // Method to open the CommentFragment
     private void openCommentFragment() {
