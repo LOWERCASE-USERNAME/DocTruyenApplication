@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Button xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/chapter_button"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
+    android:textAlignment="textStart"
     android:text="Chapter Title"
+    android:textStyle="bold"
     android:textSize="16sp"/>

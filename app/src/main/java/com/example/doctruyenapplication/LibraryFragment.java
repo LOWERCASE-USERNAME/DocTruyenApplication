@@ -1,5 +1,6 @@
 package com.example.doctruyenapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.os.Handler;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
@@ -26,25 +28,13 @@ import com.example.doctruyenapplication.object.Book;
 import com.example.doctruyenapplication.object.Genre;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LibraryFragment extends Fragment {
-    private static final Map<Integer, String> STORY_TYPE_MAP = new HashMap<>();
-    static {
-        STORY_TYPE_MAP.put(R.id.story_type_1, "TU TIÊN");
-        STORY_TYPE_MAP.put(R.id.story_type_2, "HUYỀN HUYỄN");
-        STORY_TYPE_MAP.put(R.id.story_type_3, "CHUYỂN SINH");
-        STORY_TYPE_MAP.put(R.id.story_type_4, "HÀI HƯỚC");
-        STORY_TYPE_MAP.put(R.id.story_type_5, "NGÔN TÌNH");
-        STORY_TYPE_MAP.put(R.id.story_type_6, "KINH DỊ");
-    }
-
     private GridView newStoriesGridView, bestStoriesGridView, anStoriesGridView;
     private ArrayList<Book> bookList;
     private BookAdapter bookAdapter;
@@ -63,6 +53,7 @@ public class LibraryFragment extends Fragment {
         newStoriesGridView = view.findViewById(R.id.new_stories_grid);
         bestStoriesGridView = view.findViewById(R.id.best_stories_grid);
         anStoriesGridView = view.findViewById(R.id.an_stories_grid);
+        setupGridViewItemClick(new GridView[]{newStoriesGridView, bestStoriesGridView, anStoriesGridView});
 
         // Khởi tạo danh sách sách
         fetchBooks();
@@ -176,13 +167,31 @@ public class LibraryFragment extends Fragment {
     }
 
     private boolean onMenuItemClick(MenuItem menuItem) {
-//        String storyType = STORY_TYPE_MAP.get(menuItem.getItemId());
         String storyType = menuItem.getTitle().toString();
         if (storyType != null) {
             navigateToListStoriesFragment(storyType);
             return true;
         }
         return false;
+    }
+
+    // Set up item click listeners for each GridView to navigate to the chapter details
+    private void setupGridViewItemClick(GridView[] gridViews) {
+        for(GridView gridView : gridViews){
+            gridView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
+                Book selectedBook = bookList.get(position);
+                navigateToChapterDetailFragment(selectedBook);
+            });
+        }
+    }
+
+    // Navigate to the ChapterDetailFragment with the selected book
+    private void navigateToChapterDetailFragment(Book book) {
+//        BookDetailFragment bookDetailFragment = BookDetailFragment.newInstance(book);
+        Intent intent = new Intent(requireContext(), BookDetailActivity.class);
+        intent.putExtra("book", book);
+        startActivity(intent);
+//        navigateToFragment(bookDetailFragment);
     }
 
     private void navigateToListStoriesFragment(String storyType) {

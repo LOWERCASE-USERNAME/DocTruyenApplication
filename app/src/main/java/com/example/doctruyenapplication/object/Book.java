@@ -1,10 +1,11 @@
 package com.example.doctruyenapplication.object;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Book {
+public class Book implements Serializable {
     private int bookId;
     private String bookName;
     private String description;
