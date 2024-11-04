@@ -19,14 +19,16 @@ import java.util.List;
 
 public class BookHoriAdapter extends ArrayAdapter<Book> {
     private Context context;
-    private List<Book> books;
+    private List<Book> books;            // List for displaying books (filtered)
+    private List<Book> originalBooks;    // Original list of all books
     private List<Boolean> selectedItems;
     private boolean isSelectionMode = false;
 
     public BookHoriAdapter(Context context, int resource, List<Book> objects) {
         super(context, resource, objects);
         this.context = context;
-        this.books = new ArrayList<>(objects);
+        this.books = new ArrayList<>(objects);        // Filtered list reference
+        this.originalBooks = new ArrayList<>(objects); // Original list for restoring items
         this.selectedItems = new ArrayList<>(objects.size());
         for (int i = 0; i < objects.size(); i++) {
             selectedItems.add(false);
@@ -35,46 +37,48 @@ public class BookHoriAdapter extends ArrayAdapter<Book> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        if (position >= books.size()) {
+            return new View(context);  // Safeguard for out-of-bounds access
+        }
+
+        ViewHolder holder;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.item_book_hori, parent, false);
-        }
-
-        Book book = this.books.get(position);
-        TextView bookTitle = convertView.findViewById(R.id.book_title);
-        TextView bookChapter = convertView.findViewById(R.id.book_chapter);
-        ImageView bookImage = convertView.findViewById(R.id.book_image);
-        CheckBox bookCheckbox = convertView.findViewById(R.id.book_checkbox);
-
-        bookTitle.setText(book.getBookName());
-        List<Chapter> chapters = book.getChapters();
-        if(chapters != null){
-            Chapter newestChapter = chapters.get(chapters.size() - 1);
-            bookChapter.setText(String.format("Chapter %d: %s", newestChapter.getChapterOrder(), newestChapter.getChapterName()));
-        }
-        Glide.with(context).load(book.getPictureLink()).into(bookImage);
-
-        if (position % 2 == 0) {
-            convertView.setBackgroundColor(0xFFEFEFEF);
+            holder = new ViewHolder();
+            holder.bookTitle = convertView.findViewById(R.id.book_title);
+            holder.bookChapter = convertView.findViewById(R.id.book_chapter);
+            holder.bookImage = convertView.findViewById(R.id.book_image);
+            holder.bookCheckbox = convertView.findViewById(R.id.book_checkbox);
+            convertView.setTag(holder);
         } else {
-            convertView.setBackgroundColor(0xFFFFFFFF);
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        // Change the background color based on selection
-        if (isSelectionMode) {
-            bookCheckbox.setVisibility(View.VISIBLE);
-//            convertView.setBackgroundColor(selectedItems.get(position) ? 0xFFDDDDDD : (position % 2 == 0 ? 0xFFEFEFEF : 0xFFFFFFFF));
-        }else{
-            bookCheckbox.setVisibility(View.GONE);
-            bookCheckbox.setChecked(false);
+        Book book = books.get(position);
+        if (holder.bookTitle != null) holder.bookTitle.setText(book.getBookName());
+
+        List<Chapter> chapters = book.getChapters();
+        if (holder.bookChapter != null && chapters != null && !chapters.isEmpty()) {
+            Chapter newestChapter = chapters.get(chapters.size() - 1);
+            holder.bookChapter.setText(String.format("Chapter %d: %s", newestChapter.getChapterOrder(), newestChapter.getChapterName()));
+        } else {
+            holder.bookChapter.setText("");
         }
 
-        // Handle clicks differently based on selection mode
+        if (holder.bookImage != null) {
+            Glide.with(context).load(book.getPictureLink()).into(holder.bookImage);
+        }
+
+        convertView.setBackgroundColor(position % 2 == 0 ? 0xFFEFEFEF : 0xFFFFFFFF);
+        holder.bookCheckbox.setVisibility(isSelectionMode ? View.VISIBLE : View.GONE);
+        holder.bookCheckbox.setChecked(selectedItems.get(position));
+
         convertView.setOnClickListener(v -> {
             if (isSelectionMode) {
-                // Toggle selection state
-                bookCheckbox.setChecked(!selectedItems.get(position));
-                selectedItems.set(position, !selectedItems.get(position));
+                boolean isSelected = !selectedItems.get(position);
+                selectedItems.set(position, isSelected);
+                holder.bookCheckbox.setChecked(isSelected);
                 notifyDataSetChanged();
             }
         });
@@ -117,25 +121,31 @@ public class BookHoriAdapter extends ArrayAdapter<Book> {
         notifyDataSetChanged();
     }
 
-    public void updateData(List<Book> books) {
+    public void updateData(List<Book> newBooks) {
+        this.originalBooks.clear();
+        this.originalBooks.addAll(newBooks);
         this.books.clear();
-        this.books.addAll(books);
+        this.books.addAll(newBooks);
         notifyDataSetChanged();
     }
 
     public void filterBooks(String query) {
         String searchQuery = query.toUpperCase();
-        List<Book> filteredList = new ArrayList<>();
+        books.clear();
 
-        for (Book book : books) {
-            String bookName = book.getBookName().toUpperCase();
-            if (bookName.contains(searchQuery)) {
-                filteredList.add(book);
+        for (Book book : originalBooks) {
+            if (book.getBookName().toUpperCase().contains(searchQuery)) {
+                books.add(book);
             }
         }
 
-        clear();
-        addAll(filteredList);
         notifyDataSetChanged();
+    }
+
+    static class ViewHolder {
+        TextView bookTitle;
+        TextView bookChapter;
+        ImageView bookImage;
+        CheckBox bookCheckbox;
     }
 }
