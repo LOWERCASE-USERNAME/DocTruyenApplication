@@ -22,6 +22,8 @@ public interface ApiService {
     Call<List<Genre>> getGenres();
     @GET("books/all")
     Call<List<Book>> getAllBooks();
+    @GET("books/get-by-writer-account-id/{accountId}")
+    Call<List<Book>> getBooksByWriterId(@Path("accountId") int accountId);
     @GET("books")
     Call<List<Book>> getBooks(@Query("pageNumber") int pageNumber, @Query("pageSize") int pageSize);
     @GET("books")

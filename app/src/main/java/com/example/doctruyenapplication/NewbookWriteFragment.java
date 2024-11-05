@@ -96,6 +96,10 @@ public class NewbookWriteFragment extends Fragment {
     }
 
     private void postBook(Book book){
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+        int accountId = sharedPreferences.getInt("accountId", 0);
+
+        book.setWriterId(accountId);
         Call<Book> call = apiService.postBook(book);
         call.enqueue(new Callback<Book>() {
             @Override

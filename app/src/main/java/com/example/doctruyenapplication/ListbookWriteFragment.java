@@ -1,6 +1,8 @@
 package com.example.doctruyenapplication;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,7 +53,10 @@ public class ListbookWriteFragment extends Fragment {
     }
 
     private void fetchBooks(GridView gridView){
-        Call<List<Book>> call = apiService.getAllBooks();
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+        int accountId = sharedPreferences.getInt("accountId", 0);
+
+        Call<List<Book>> call = apiService.getBooksByWriterId(accountId);
         call.enqueue(new Callback<List<Book>>() {
             @Override
             public void onResponse(Call<List<Book>> call, Response<List<Book>> response) {

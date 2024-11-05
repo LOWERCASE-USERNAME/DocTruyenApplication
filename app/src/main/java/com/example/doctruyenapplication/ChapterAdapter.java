@@ -36,7 +36,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     @Override
     public void onBindViewHolder(@NonNull ChapterViewHolder holder, int position) {
         Chapter chapter = chapterList.get(position);
-        if(chapter.getChapterId() == -1){
+        if(chapter.getChapterId() == -1 && chapter.getChapterName().trim().compareToIgnoreCase("Thêm chapter mới") == 0){
             holder.chapterButton.setBackgroundColor(Color.LTGRAY);
             holder.chapterButton.setText("+ " + chapter.getChapterName());
             holder.chapterButton.setOnClickListener(v -> onChapterClickListener.onChapterClick(chapter));
