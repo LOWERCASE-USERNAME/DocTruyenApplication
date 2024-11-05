@@ -1,5 +1,6 @@
 package com.example.doctruyenapplication.api;
 
+import com.example.doctruyenapplication.Comment;
 import com.example.doctruyenapplication.object.Account;
 import com.example.doctruyenapplication.object.Book;
 import com.example.doctruyenapplication.object.Chapter;
@@ -47,6 +48,14 @@ public interface ApiService {
             @Path("bookId") int bookId,
             @Path("chapterId") int chapterId
     );
+
+    @GET("comments/getComments/{bookId}")
+    Call<List<Comment>> getComments(
+
+            @Path("bookId") int bookId
+    );
+    @POST("comments/addComment/{accountId}")
+    Call<Void> addComment(@Body Comment comment, @Path("accountId") int accountId);
     @POST("books")
     Call<Book> postBook(@Body Book book);
     @POST("chapters")
