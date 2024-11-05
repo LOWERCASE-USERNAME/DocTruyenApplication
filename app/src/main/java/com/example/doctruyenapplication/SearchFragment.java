@@ -75,20 +75,10 @@ public class SearchFragment extends Fragment {
 
     private void createBookList() {
         bookList = new ArrayList<>();
-        // Thêm các cuốn sách mẫu
-        bookList.add(new Book("https://cdn.myanimelist.net/images/anime/12/39497.jpg", "Boku no Pico", "Chapter 1"));
-        bookList.add(new Book("https://a.pinatafarm.com/500x377/d972ce254e/2-gay-black-mens-kissing.jpg", "Two black man kissing", "Chapter 2"));
-        bookList.add(new Book("https://ih1.redbubble.net/image.4595760308.2867/flat,750x,075,f-pad,750x1000,f8f8f8.jpg", "Why are you gay", "Chapter 3"));
-        // Thêm nhiều sách hơn nếu cần
     }
 
     private void createAuthorList() {
         authorList = new ArrayList<>();
-        // Thêm các tác giả mẫu với đường dẫn hình ảnh
-        authorList.add(new Author(1, "Ngã Cật Tây Hồng Thị", "Tác giả nổi tiếng", "https://tienhiep.info/wp-content/uploads/2018/09/nga-cat-tay-hong-thi.jpg"));
-        authorList.add(new Author(2, "Đường Gia Tam Thiếu", "Tác giả nổi tiếng", "https://i.vietgiaitri.com/2018/9/23/duong-gia-tam-thieu-ngay-truoc-vi-em-anh-nguyen-yeu-ca-the-gioi--6027bb.jpg"));
-        authorList.add(new Author(3, " Lão Ưng Cật Tiểu Kê", "Mô tả tác giả 3", "https://yymedia.codeprime.net/media/authors/5cb6c91fdb.jpg"));
-        // Thêm nhiều tác giả hơn nếu cần
     }
 
     private void performSearch() {
