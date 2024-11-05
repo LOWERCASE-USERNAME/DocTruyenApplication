@@ -22,7 +22,7 @@ public class BookDetailTabAdapter extends FragmentStateAdapter {
             case 1:
                 return new RatingReviewFragment();
             case 2:
-                return new CommentFragment();
+                return new CommentFragment(book);
             case 3:
                 return new ChapterListFragment(book.getChapters());
             default:

@@ -1,35 +1,47 @@
 package com.example.doctruyenapplication;
 
+// CommentInputDto.java
 public class Comment {
-    private int id;
-    private String username;
+    private int commentId;
     private String content;
-    private int storyId; // ID của truyện mà comment thuộc về
+    private int userId;
+    private int bookId;
 
-    public Comment(String username, String content) {
-        this.username = username;
-        this.content = content;
+    // Constructor
+    public Comment() {
+
     }
 
-    // Thêm constructor khác nếu cần thiết và các getter, setter
-
-    public int getId() {
-        return id;
+    public int getCommentId() {
+        return commentId;
     }
 
-    public String getUsername() {
-        return username;
+    public void setCommentId(int commentId) {
+        this.commentId = commentId;
     }
 
+    // Getters and setters
     public String getContent() {
         return content;
     }
 
-    public void setStoryId(int storyId) {
-        this.storyId = storyId;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public int getStoryId() {
-        return storyId;
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
 }

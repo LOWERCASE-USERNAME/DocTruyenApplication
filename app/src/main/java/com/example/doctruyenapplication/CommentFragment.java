@@ -1,6 +1,9 @@
 package com.example.doctruyenapplication;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,9 +19,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.doctruyenapplication.CommentApi;
+import com.example.doctruyenapplication.api.ApiService;
 import com.example.doctruyenapplication.api.RetrofitClient;
-import com.example.doctruyenapplication.Comment;
+import com.example.doctruyenapplication.object.Book;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,23 +31,45 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CommentFragment extends Fragment {
-
+    private ApiService apiService;
     private RecyclerView commentRecyclerView;
     private EditText commentInput;
     private Button sendButton;
     private List<Comment> commentList;
     private CommentAdapter commentAdapter;
-    private CommentApi commentAPI;
+    private int bookId; // Store bookId for fetching and adding comments
+    private Book book;
+
+    public CommentFragment(Book book) {
+        this.book = book;
+    }
+
+    public CommentFragment(int bookId) {
+        this.bookId = bookId;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_comment, container, false);
 
+        // Initialize ApiService
+        apiService = RetrofitClient.getInstance().create(ApiService.class);
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+
+        int accountId = sharedPreferences.getInt("accountId", 0);
+        Bundle bundle = getArguments();
+//        if (bundle != null) {
+//
+//            bookId = bundle.getInt("bookId");
+//        }
+
         // Initialize views
         commentRecyclerView = view.findViewById(R.id.comment_recycler_view);
         commentInput = view.findViewById(R.id.comment_input);
         sendButton = view.findViewById(R.id.send_button);
+
+        // Additional UI components
         TextView commentTitle = view.findViewById(R.id.comment_title);
         TextView commentsCount = view.findViewById(R.id.comments_count);
         Spinner sortSpinner = view.findViewById(R.id.sort_spinner);
@@ -53,74 +77,118 @@ public class CommentFragment extends Fragment {
 
         // Set up RecyclerView
         commentList = new ArrayList<>();
-        commentAdapter = new CommentAdapter(commentList);
-        commentRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        commentRecyclerView.setAdapter(commentAdapter);
+//        commentAdapter = new CommentAdapter(commentList);
+//        commentRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        commentRecyclerView.setAdapter(commentAdapter);
 
-        // Initialize API client
-        commentAPI = RetrofitClient.getInstance().create(CommentApi.class);
+        // Load initial comments
+        loadComments(book != null ? book.getBookId() : bookId);
 
-        // Load initial comments from API
-        loadComments();
-
-        // Send button click listener to add new comment
+        // Send button click listener to add a new comment
         sendButton.setOnClickListener(v -> {
             String commentText = commentInput.getText().toString().trim();
             if (!commentText.isEmpty()) {
-                // Tạo comment mới và gọi API để lưu vào database
-                Comment newComment = new Comment("User Name", commentText); // Add other fields as necessary
-                postComment(newComment);
-                commentInput.setText(""); // Clear input
+                addComment(book != null ? book.getBookId() : bookId, commentText,accountId);
             }
         });
 
         // Back button to navigate back
-        backButton.setOnClickListener(v -> getActivity().onBackPressed());
+        backButton.setOnClickListener(v -> requireActivity().onBackPressed());
 
         return view;
     }
 
     // Load initial comments from API
-    private void loadComments() {
-        int storyId = 1; // Replace with the actual story ID
-        commentAPI.getComments(storyId).enqueue(new Callback<List<Comment>>() {
+    private void loadComments(int bookId) {
+        Call<List<Comment>> call = apiService.getComments(bookId);
+        call.enqueue(new Callback<List<Comment>>() {
             @Override
             public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     commentList.clear();
                     commentList.addAll(response.body());
-                    commentAdapter.notifyDataSetChanged();
+                    commentAdapter = new CommentAdapter(commentList);
+                    commentRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    commentRecyclerView.setAdapter(commentAdapter);
+//                    commentAdapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(getContext(), "Failed to load comments", Toast.LENGTH_SHORT).show();
+                    Log.e("Retrofit", "Response error: " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<List<Comment>> call, Throwable t) {
-                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("Retrofit", "Network error: " + t.getMessage(), t);
             }
         });
     }
 
-    // Post new comment to API
-    private void postComment(Comment comment) {
-        commentAPI.postComment(comment).enqueue(new Callback<Comment>() {
+    // Add a new comment through API
+    private void addComment(int bookId, String content,int accountId) {
+        Comment newComment = new Comment();
+        newComment.setBookId(bookId);
+        newComment.setContent(content);
+        newComment.setCommentId(0);
+
+        Call<Void> call = apiService.addComment(newComment,accountId);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Comment> call, Response<Comment> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    // Add comment to list and update UI
-                    commentList.add(0, response.body());
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    // Add new comment locally for immediate UI update
+                    commentList.add(0, newComment);
                     commentAdapter.notifyItemInserted(0);
                     commentRecyclerView.scrollToPosition(0);
+                    commentInput.setText("");
                 } else {
-                    Toast.makeText(getContext(), "Failed to post comment", Toast.LENGTH_SHORT).show();
+                    Log.e("Retrofit", "Response error: " + response.message());
                 }
             }
 
             @Override
-            public void onFailure(Call<Comment> call, Throwable t) {
-                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("Retrofit", "Network error: " + t.getMessage(), t);
             }
         });
+    }
+
+    // Adapter for RecyclerView
+    private static class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
+
+        private final List<Comment> comments;
+
+        public CommentAdapter(List<Comment> comments) {
+            this.comments = comments;
+        }
+
+        @NonNull
+        @Override
+        public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment, parent, false);
+            return new CommentViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
+            Comment comment = comments.get(position);
+//            holder.usernameTextView.setText(comment.getUserName()); // Make sure Comment class has getUsername()
+            holder.contentTextView.setText(comment.getContent());
+        }
+
+        @Override
+        public int getItemCount() {
+            return comments.size();
+        }
+
+        public static class CommentViewHolder extends RecyclerView.ViewHolder {
+            TextView usernameTextView;
+            TextView contentTextView;
+
+            public CommentViewHolder(@NonNull View itemView) {
+                super(itemView);
+                usernameTextView = itemView.findViewById(R.id.comment_username);
+                contentTextView = itemView.findViewById(R.id.comment_content);
+            }
+        }
     }
 }

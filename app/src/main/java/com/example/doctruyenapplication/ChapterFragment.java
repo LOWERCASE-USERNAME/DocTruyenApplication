@@ -144,7 +144,7 @@ public class ChapterFragment extends Fragment {
 
     // Method to open the CommentFragment
     private void openCommentFragment() {
-        CommentFragment commentFragment = new CommentFragment();
+        CommentFragment commentFragment = new CommentFragment(bookId);
 
         // Pass the current chapter's title to the CommentFragment
 //        Bundle bundle = new Bundle();
