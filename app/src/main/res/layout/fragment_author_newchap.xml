@@ -2,8 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#E0F7FA">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,14 +40,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="8dp">
-
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Chap: 1"-->
-<!--                android:textColor="#000000"-->
-<!--                android:textSize="18sp"-->
-<!--                android:textStyle="bold" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -94,29 +85,69 @@
                         android:layout_weight="1" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/introduction_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Nội dung"
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edt_newchap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/delete_chap_btn"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/delete"
+                        android:drawableTint="@color/white"
+                        android:text="Xóa"
+                        android:layout_weight="1"
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:id="@+id/update_chap_btn"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_create"
+                        android:drawableTint="@color/white"
+                        android:layout_weight="1"
+                        android:text="Sửa"
+                        android:layout_marginHorizontal="10dp"
+                        android:textSize="16sp"/>
+
+                    <Button
+                        android:id="@+id/create_chap_btn"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_add"
+                        android:drawableTint="@color/white"
+                        android:layout_weight="1"
+                        android:text="Tạo"
+                        android:textSize="16sp"/>
+                </LinearLayout>
             </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/chapter_list_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginTop="16dp"/>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/introduction_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Nội dung"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/edt_newchap_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/create_chap_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tạo chap "
-            android:layout_gravity="center" /> <!-- Căn giữa nút -->
     </LinearLayout>
 </ScrollView>

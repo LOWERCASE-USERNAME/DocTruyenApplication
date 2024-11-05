@@ -1,6 +1,7 @@
 package com.example.doctruyenapplication.object;
+import java.io.Serializable;
 import java.util.List;
-public class Account {
+public class Account implements Serializable {
     private int accountId;
     private String email;
     private String password;

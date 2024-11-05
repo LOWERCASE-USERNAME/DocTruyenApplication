@@ -1,6 +1,8 @@
 package com.example.doctruyenapplication.object;
 
-public class BookReadHistory {
+import java.io.Serializable;
+
+public class BookReadHistory implements Serializable {
 
     private int readHistoryId;
     private int userId;

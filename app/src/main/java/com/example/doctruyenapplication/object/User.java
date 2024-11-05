@@ -1,8 +1,9 @@
 package com.example.doctruyenapplication.object;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
     private int userId;
     private String userName;
     private Date dob;

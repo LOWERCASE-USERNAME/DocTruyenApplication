@@ -29,8 +29,15 @@ public class ChapterListFragment extends Fragment {
     private RecyclerView chapterRecyclerView;
     private ChapterAdapter chapterAdapter;
     private List<Chapter> chapters;
+    private ChapterAdapter.OnChapterClickListener externalChapterClickListener;
+
     public ChapterListFragment(List<Chapter> chapters) {
         this.chapters = chapters;
+    }
+
+    public ChapterListFragment(List<Chapter> chapters, ChapterAdapter.OnChapterClickListener externalChapterClickListener) {
+        this.chapters = chapters;
+        this.externalChapterClickListener = externalChapterClickListener;
     }
 
     @Override
@@ -41,7 +48,7 @@ public class ChapterListFragment extends Fragment {
         chapterRecyclerView = view.findViewById(R.id.chapter_recycler_view);
         // Set up the RecyclerView for the chapters
         chapterRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        chapterAdapter = new ChapterAdapter(chapters, this::fetchChapter);
+        chapterAdapter = new ChapterAdapter(chapters, externalChapterClickListener != null ? externalChapterClickListener : this::fetchChapter);
         chapterRecyclerView.setAdapter(chapterAdapter);
 
         apiService = RetrofitClient.getInstance().create(ApiService.class);

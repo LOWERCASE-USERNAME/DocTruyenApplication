@@ -74,16 +74,28 @@ public class BookHoriAdapter extends ArrayAdapter<Book> {
         holder.bookCheckbox.setVisibility(isSelectionMode ? View.VISIBLE : View.GONE);
         holder.bookCheckbox.setChecked(selectedItems.get(position));
 
-        convertView.setOnClickListener(v -> {
-            if (isSelectionMode) {
-                boolean isSelected = !selectedItems.get(position);
-                selectedItems.set(position, isSelected);
-                holder.bookCheckbox.setChecked(isSelected);
-                notifyDataSetChanged();
-            }
-        });
+//        convertView.setOnClickListener(v -> {
+//            if (isSelectionMode) {
+//                boolean isSelected = !selectedItems.get(position);
+//                selectedItems.set(position, isSelected);
+//                holder.bookCheckbox.setChecked(isSelected);
+//                notifyDataSetChanged();
+//            }
+//        });
 
         return convertView;
+    }
+
+    public List<Boolean> getSelectedItems() {
+        return selectedItems;
+    }
+
+    public void setSelectedItems(List<Boolean> selectedItems) {
+        this.selectedItems = selectedItems;
+    }
+
+    public boolean isSelectionMode() {
+        return isSelectionMode;
     }
 
     public void setSelectionMode(boolean selectionMode) {

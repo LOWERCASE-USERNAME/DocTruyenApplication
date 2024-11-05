@@ -62,7 +62,15 @@ public class ListbookWriteFragment extends Fragment {
                     gridView.setAdapter(bookAdapter);
                     gridView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
                         Book selectedBook = bookList.get(position);
-                        navigateToChapterDetailFragment(selectedBook);
+                        navigateToNewchapWriteFragment(selectedBook);
+//                        navigateToChapterDetailFragment(selectedBook);
+//                        if (bookAdapter.isSelectionMode()) {
+//                            boolean isSelected = !bookAdapter.getSelectedItems().get(position);
+//                            bookAdapter.getSelectedItems().set(position, isSelected);
+//                            bookAdapter.notifyDataSetChanged();
+//                        } else {
+//                            navigateToChapterDetailFragment(selectedBook);
+//                        }
                     });
                 } else {
                     Log.e("Retrofit", "Response error: " + response.code());
@@ -84,11 +92,15 @@ public class ListbookWriteFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-    private void navigateToChapterListFragment() {
-        Fragment newBookFragment = new NewbookWriteFragment();
+    private void navigateToNewchapWriteFragment(Book book) {
+        Fragment newChapFragment = new NewchapWriteFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("book", book);
+        newChapFragment.setArguments(args);
+
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container, newBookFragment); // Ensure 'container' ID matches your layout
+        fragmentTransaction.replace(R.id.container, newChapFragment); // Ensure 'container' ID matches your layout
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

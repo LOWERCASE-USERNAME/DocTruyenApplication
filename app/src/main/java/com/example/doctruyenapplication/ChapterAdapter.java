@@ -1,5 +1,6 @@
 package com.example.doctruyenapplication;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,12 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     @Override
     public void onBindViewHolder(@NonNull ChapterViewHolder holder, int position) {
         Chapter chapter = chapterList.get(position);
+        if(chapter.getChapterId() == -1){
+            holder.chapterButton.setBackgroundColor(Color.LTGRAY);
+            holder.chapterButton.setText("+ " + chapter.getChapterName());
+            holder.chapterButton.setOnClickListener(v -> onChapterClickListener.onChapterClick(chapter));
+            return;
+        }
         holder.chapterButton.setText("Chapter " + chapter.getChapterOrder() + ": " + chapter.getChapterName());
 
         holder.chapterButton.setOnClickListener(v -> onChapterClickListener.onChapterClick(chapter));

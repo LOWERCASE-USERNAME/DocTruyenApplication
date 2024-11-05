@@ -2,8 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#E0F7FA">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -93,12 +92,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:paddingTop="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text="Thể loại: "
                         android:textColor="#000000"
                         android:textSize="18sp"
@@ -106,20 +106,9 @@
 
                     <Button
                         android:id="@+id/select_genres_button"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Select Genres"/>
-<!--                    <Spinner-->
-<!--                        android:id="@+id/genre_spinner"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content" />-->
-
-<!--                    <LinearLayout-->
-<!--                        android:id="@+id/selected_genres_container"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="horizontal"-->
-<!--                        android:paddingTop="8dp" />-->
+                        android:text="Chọn thể loại"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -129,9 +118,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="GIỚI THIỆU"
+            android:text="Miêu tả"
             android:textColor="#000000"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <EditText
@@ -143,7 +132,7 @@
             android:id="@+id/create_book_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tạo truyện "
+            android:text="Tạo truyện"
             android:layout_gravity="center" /> <!-- Căn giữa nút -->
     </LinearLayout>
 </ScrollView>

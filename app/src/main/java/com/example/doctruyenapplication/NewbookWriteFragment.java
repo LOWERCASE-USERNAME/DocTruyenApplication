@@ -42,6 +42,7 @@ public class NewbookWriteFragment extends Fragment {
     private ImageView selectedImageView;
     private Button genreButton;
     EditText bookNameEditText, edtImageUrl, edtDescription;
+    ArrayList<Integer> selectedGenreIds;
 
     @Nullable
     @Override
@@ -84,6 +85,8 @@ public class NewbookWriteFragment extends Fragment {
 
     private void createBook(){
         Book book = new Book();
+        genres.stream().filter(g -> selectedGenreIds.contains(g.getGenreId()));
+        book.setGenres(genres);
         book.setBookName(bookNameEditText.getText().toString());
         book.setPictureLink(edtImageUrl.getText().toString());
         book.setDescription(edtDescription.getText().toString());
@@ -149,7 +152,7 @@ public class NewbookWriteFragment extends Fragment {
                     checkedItems[which] = isChecked;
                 })
                 .setPositiveButton("OK", (dialog, which) -> {
-                    ArrayList<Integer> selectedGenreIds = new ArrayList<>();
+                    selectedGenreIds = new ArrayList<>();
                     // Handle the selection and use the checkedItems array
                     for (int i = 0; i < checkedItems.length; i++) {
                         if (checkedItems[i]) {
