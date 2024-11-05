@@ -1,6 +1,9 @@
 package com.example.doctruyenapplication;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,27 +19,57 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.doctruyenapplication.api.ApiService;
+import com.example.doctruyenapplication.api.RetrofitClient;
+import com.example.doctruyenapplication.object.Book;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentFragment extends Fragment {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+public class CommentFragment extends Fragment {
+    private ApiService apiService;
     private RecyclerView commentRecyclerView;
     private EditText commentInput;
     private Button sendButton;
     private List<Comment> commentList;
     private CommentAdapter commentAdapter;
+    private int bookId; // Store bookId for fetching and adding comments
+    private Book book;
+
+    public CommentFragment(Book book) {
+        this.book = book;
+    }
+
+    public CommentFragment(int bookId) {
+        this.bookId = bookId;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_comment, container, false);
 
+        // Initialize ApiService
+        apiService = RetrofitClient.getInstance().create(ApiService.class);
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+
+        int accountId = sharedPreferences.getInt("accountId", 0);
+        Bundle bundle = getArguments();
+//        if (bundle != null) {
+//
+//            bookId = bundle.getInt("bookId");
+//        }
+
         // Initialize views
         commentRecyclerView = view.findViewById(R.id.comment_recycler_view);
         commentInput = view.findViewById(R.id.comment_input);
         sendButton = view.findViewById(R.id.send_button);
 
+        // Additional UI components
         TextView commentTitle = view.findViewById(R.id.comment_title);
         TextView commentsCount = view.findViewById(R.id.comments_count);
         Spinner sortSpinner = view.findViewById(R.id.sort_spinner);
@@ -44,51 +77,79 @@ public class CommentFragment extends Fragment {
 
         // Set up RecyclerView
         commentList = new ArrayList<>();
-        commentAdapter = new CommentAdapter(commentList);
-        commentRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        commentRecyclerView.setAdapter(commentAdapter);
+//        commentAdapter = new CommentAdapter(commentList);
+//        commentRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        commentRecyclerView.setAdapter(commentAdapter);
 
         // Load initial comments
-        loadComments();
+        loadComments(book != null ? book.getBookId() : bookId);
 
-        // Send button click listener to add new comment
+        // Send button click listener to add a new comment
         sendButton.setOnClickListener(v -> {
             String commentText = commentInput.getText().toString().trim();
             if (!commentText.isEmpty()) {
-                // Add comment to list and update UI
-                Comment newComment = new Comment("User Name", commentText);
-                commentList.add(0, newComment); // Add at the top of the list
-                commentAdapter.notifyItemInserted(0);
-                commentRecyclerView.scrollToPosition(0);
-                commentInput.setText(""); // Clear input
+                addComment(book != null ? book.getBookId() : bookId, commentText,accountId);
             }
         });
 
         // Back button to navigate back
-        backButton.setOnClickListener(v -> getActivity().onBackPressed());
+        backButton.setOnClickListener(v -> requireActivity().onBackPressed());
 
         return view;
     }
 
-    // Load initial comments (for example purposes)
-    private void loadComments() {
-        commentList.add(new Comment("Granny Tân", "Mình cho rằng lợi ích duy nhất..."));
-        commentList.add(new Comment("Hwang Long", "Tất cả lập luận và lý luận của bạn..."));
-        commentAdapter.notifyDataSetChanged();
+    // Load initial comments from API
+    private void loadComments(int bookId) {
+        Call<List<Comment>> call = apiService.getComments(bookId);
+        call.enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    commentList.clear();
+                    commentList.addAll(response.body());
+                    commentAdapter = new CommentAdapter(commentList);
+                    commentRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    commentRecyclerView.setAdapter(commentAdapter);
+//                    commentAdapter.notifyDataSetChanged();
+                } else {
+                    Log.e("Retrofit", "Response error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
+                Log.e("Retrofit", "Network error: " + t.getMessage(), t);
+            }
+        });
     }
 
-    // Comment model class
-    private static class Comment {
-        String username;
-        String content;
+    // Add a new comment through API
+    private void addComment(int bookId, String content,int accountId) {
+        Comment newComment = new Comment();
+        newComment.setBookId(bookId);
+        newComment.setContent(content);
+        newComment.setCommentId(0);
 
-        public Comment(String username, String content) {
-            this.username = username;
-            this.content = content;
-        }
+        Call<Void> call = apiService.addComment(newComment,accountId);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    // Add new comment locally for immediate UI update
+                    commentList.add(0, newComment);
+                    commentAdapter.notifyItemInserted(0);
+                    commentRecyclerView.scrollToPosition(0);
+                    commentInput.setText("");
+                } else {
+                    Log.e("Retrofit", "Response error: " + response.message());
+                }
+            }
 
-        public String getUsername() { return username; }
-        public String getContent() { return content; }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("Retrofit", "Network error: " + t.getMessage(), t);
+            }
+        });
     }
 
     // Adapter for RecyclerView
@@ -110,7 +171,7 @@ public class CommentFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
             Comment comment = comments.get(position);
-            holder.usernameTextView.setText(comment.getUsername());
+//            holder.usernameTextView.setText(comment.getUserName()); // Make sure Comment class has getUsername()
             holder.contentTextView.setText(comment.getContent());
         }
 

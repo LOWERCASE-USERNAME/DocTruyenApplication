@@ -1,19 +1,47 @@
 package com.example.doctruyenapplication;
 
+// CommentInputDto.java
 public class Comment {
-    private String text;
-    private boolean isAuthor;
+    private int commentId;
+    private String content;
+    private int userId;
+    private int bookId;
 
-    public Comment(String text, boolean isAuthor) {
-        this.text = text;
-        this.isAuthor = isAuthor;
+    // Constructor
+    public Comment() {
+
     }
 
-    public String getText() {
-        return text;
+    public int getCommentId() {
+        return commentId;
     }
 
-    public boolean isAuthor() {
-        return isAuthor;
+    public void setCommentId(int commentId) {
+        this.commentId = commentId;
+    }
+
+    // Getters and setters
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
 }
