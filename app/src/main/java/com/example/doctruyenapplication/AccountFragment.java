@@ -39,8 +39,8 @@ public class AccountFragment extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_account, container, false);
 
-        LinearLayout optionRegisterToWrite = view.findViewById(R.id.option_register_to_write);
-        optionRegisterToWrite.setOnClickListener(v -> navigateToFragment(new AccountFragment())); // Assuming you have a RegisterFragment
+//        LinearLayout optionRegisterToWrite = view.findViewById(R.id.option_register_to_write);
+//        optionRegisterToWrite.setOnClickListener(v -> navigateToFragment(new AccountFragment())); // Assuming you have a RegisterFragment
 
         LinearLayout optionWriteBook = view.findViewById(R.id.option_write_book);
         TextView writeBookTextView = optionWriteBook.findViewById(R.id.write_book_text); // Assuming you give an ID to this TextView

@@ -34,7 +34,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         // Bind data to each item view
         Comment comment = commentList.get(position);
-        holder.usernameTextView.setText(comment.getUsername());
+//        holder.usernameTextView.setText(comment.getUsername());
         holder.contentTextView.setText(comment.getContent());
     }
 
@@ -49,8 +49,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
-            usernameTextView = itemView.findViewById(R.id.username_text_view);
-            contentTextView = itemView.findViewById(R.id.content_text_view);
+            usernameTextView = itemView.findViewById(R.id.comment_username);
+            contentTextView = itemView.findViewById(R.id.comment_content);
         }
     }
 }

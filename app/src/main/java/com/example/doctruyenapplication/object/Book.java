@@ -12,6 +12,7 @@ public class Book implements Serializable {
     private Date uploadTime;
     private String pictureLink;
     private int status;
+    private int writerId;
     private List<Genre> genres;
     private List<Chapter> chapters;
     private List<Author> authors;
@@ -33,6 +34,14 @@ public class Book implements Serializable {
         this.uploadTime = uploadTime;
         this.pictureLink = pictureLink;
         this.status = status;
+    }
+
+    public int getWriterId() {
+        return writerId;
+    }
+
+    public void setWriterId(int writerId) {
+        this.writerId = writerId;
     }
 
     public String getPictureLink() {

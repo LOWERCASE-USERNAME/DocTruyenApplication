@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -58,7 +59,7 @@ public class BookselfFragment extends Fragment {
 
         // Fetch initial data
         apiService = RetrofitClient.getInstance().create(ApiService.class);
-        fetchBooks(accountId);
+        fetchBookHistories(accountId);
 
         setupTrashButton(view); // Setup trash button click event
 
@@ -79,7 +80,7 @@ public class BookselfFragment extends Fragment {
         return view;
     }
 
-    private void fetchBooks(int accountId) {
+    private void fetchBookHistories(int accountId) {
         Call<List<BookReadHistory>> call = apiService.getReadBooks(accountId);
         call.enqueue(new Callback<List<BookReadHistory>>() {
             @Override
@@ -93,6 +94,17 @@ public class BookselfFragment extends Fragment {
                      // Initialize filtered list
                     bookHoriAdapter = new BookHoriAdapter(requireContext(), R.layout.item_book_hori, filteredBooks);
                     gridView.setAdapter(bookHoriAdapter);
+                    gridView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
+                        Book selectedBook = filteredBooks.get(position);
+                        if (bookHoriAdapter.isSelectionMode()) {
+                            boolean isSelected = !bookHoriAdapter.getSelectedItems().get(position);
+                            bookHoriAdapter.getSelectedItems().set(position, isSelected);
+                            bookHoriAdapter.notifyDataSetChanged();
+                        } else {
+                            fetchBook(selectedBook);
+//                            navigateToChapterDetailFragment(selectedBook);
+                        }
+                    });
                 } else {
                     Log.e("Retrofit", "Response error: " + response.code());
                 }
@@ -100,6 +112,26 @@ public class BookselfFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<BookReadHistory>> call, Throwable t) {
+                Log.e("Retrofit", "Network error: " + t.getMessage(), t);
+            }
+        });
+    }
+
+    private void fetchBook(Book book) {
+        Call<Book> call = apiService.getBook(book.getBookId());
+        call.enqueue(new Callback<Book>() {
+            @Override
+            public void onResponse(Call<Book> call, Response<Book> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Book selectedBook = response.body();
+                    navigateToChapterDetailFragment(selectedBook);
+                } else {
+                    Log.e("Retrofit", "Response error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Book> call, Throwable t) {
                 Log.e("Retrofit", "Network error: " + t.getMessage(), t);
             }
         });
@@ -167,5 +199,11 @@ public class BookselfFragment extends Fragment {
                     dialog.dismiss();
                 })
                 .show();
+    }
+
+    private void navigateToChapterDetailFragment(Book book) {
+        Intent intent = new Intent(requireContext(), BookDetailActivity.class);
+        intent.putExtra("book", book);
+        startActivity(intent);
     }
 }

@@ -47,13 +47,14 @@ public class SearchFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                filterBooks(query);
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 filterBooks(newText);
-                return true;
+                return false;
             }
         });
 
@@ -102,7 +103,10 @@ public class SearchFragment extends Fragment {
                 }
             }
         }
-        bookAdapter.notifyDataSetChanged();
+
+        bookAdapter = new BookHoriAdapter(getContext(), R.layout.item_book_hori, filteredList);
+        gridView.setAdapter(bookAdapter);
+//        bookAdapter.notifyDataSetChanged();
     }
 
     private void navigateToBookDetail(Book book) {

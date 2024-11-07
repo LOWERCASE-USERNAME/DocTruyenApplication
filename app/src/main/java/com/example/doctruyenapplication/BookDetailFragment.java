@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.doctruyenapplication.object.Book;
+import com.example.doctruyenapplication.object.BookReadHistory;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -27,6 +28,7 @@ import java.io.File;
 public class BookDetailFragment extends Fragment {
     public static final String ARG_BOOK = "BOOK";
     private Book book;
+    private BookReadHistory bookReadHistory;
 
     private ImageView imvBookImage;
     private TextView titleTextView;
@@ -79,10 +81,22 @@ public class BookDetailFragment extends Fragment {
                     .into(imvBookImage);
 
                 titleTextView.setText(book.getBookName());
-                authorTextView.setText(book.getAuthors().get(0).getAuthorName());
+                if(!book.getAuthors().isEmpty()){
+                    authorTextView.setText(book.getAuthors().get(0).getAuthorName());
+                }else{
+                    authorTextView.setText("Không biết");
+                }
 //                descriptionTextView.setText(book.getDescription());
-                genreTextView.setText(book.getGenres().get(0).getGenreName());
-                chaptersTextView.setText(book.getChapters().get(book.getChapters().size() - 1).getChapterName());
+                if(!book.getGenres().isEmpty()){
+                    genreTextView.setText(book.getGenres().get(0).getGenreName());
+                }else{
+                    genreTextView.setText("Không biết");
+                }
+                if(!book.getChapters().isEmpty()){
+                    chaptersTextView.setText(book.getChapters().get(book.getChapters().size() - 1).getChapterName());
+                }else{
+                    chaptersTextView.setText("Chưa có chương");
+                }
             }else{
                 Toast.makeText(requireContext(), "Argument book is null or unserializable", Toast.LENGTH_SHORT).show();
             }
