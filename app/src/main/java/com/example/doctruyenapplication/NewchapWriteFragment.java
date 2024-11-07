@@ -62,7 +62,7 @@ public class NewchapWriteFragment extends Fragment {
         Button deleteButton = view.findViewById(R.id.delete_chap_btn);
         backButton.setOnClickListener(v -> getActivity().getSupportFragmentManager().popBackStack());
         createButton.setOnClickListener(v -> postChapter(createChapter()));
-        createButton.setEnabled(false);
+//        createButton.setEnabled(false);
         updateButton.setOnClickListener(v -> putChapter(createChapter()));
         deleteButton.setOnClickListener(v -> deleteChapter(createChapter()));
         Bundle arguments = getArguments();

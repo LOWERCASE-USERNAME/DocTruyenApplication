@@ -75,28 +75,28 @@
         android:divider="?android:attr/dividerHorizontal"
         android:showDividers="middle">
 
-        <LinearLayout
-            android:id="@+id/option_register_to_write"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:background="#E0E0E0">
+<!--        <LinearLayout-->
+<!--            android:id="@+id/option_register_to_write"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:padding="16dp"-->
+<!--            android:background="#E0E0E0">-->
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_email"
-                android:contentDescription="Register to Write" />
+<!--            <ImageView-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:src="@drawable/ic_email"-->
+<!--                android:contentDescription="Register to Write" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="16dp"
-                android:text="Đăng kí viết truyện"
-                android:textSize="16sp"
-                android:gravity="center_vertical" />
-        </LinearLayout>
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingStart="16dp"-->
+<!--                android:text="Đăng kí viết truyện"-->
+<!--                android:textSize="16sp"-->
+<!--                android:gravity="center_vertical" />-->
+<!--        </LinearLayout>-->
 
         <LinearLayout
             android:id="@+id/option_write_book"

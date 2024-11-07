@@ -30,21 +30,21 @@
     </RelativeLayout>
 
     <!-- Post title and comments count -->
-    <TextView
-        android:id="@+id/post_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cai cà-phê, trải nghiệm của mình sau 5 năm..."
-        android:textSize="16sp"
-        android:paddingBottom="8dp" />
+<!--    <TextView-->
+<!--        android:id="@+id/post_title"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Cai cà-phê, trải nghiệm của mình sau 5 năm..."-->
+<!--        android:textSize="16sp"-->
+<!--        android:paddingBottom="8dp" />-->
 
-    <TextView
-        android:id="@+id/comments_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="5123 bình luận"
-        android:textSize="14sp"
-        android:paddingBottom="8dp" />
+<!--    <TextView-->
+<!--        android:id="@+id/comments_count"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="5123 bình luận"-->
+<!--        android:textSize="14sp"-->
+<!--        android:paddingBottom="8dp" />-->
 
     <!-- Sorting options -->
     <Spinner

@@ -70,8 +70,8 @@ public class CommentFragment extends Fragment {
         sendButton = view.findViewById(R.id.send_button);
 
         // Additional UI components
-        TextView commentTitle = view.findViewById(R.id.comment_title);
-        TextView commentsCount = view.findViewById(R.id.comments_count);
+//        TextView commentTitle = view.findViewById(R.id.comment_title);
+//        TextView commentsCount = view.findViewById(R.id.comments_count);
         Spinner sortSpinner = view.findViewById(R.id.sort_spinner);
         ImageButton backButton = view.findViewById(R.id.back_button);
 

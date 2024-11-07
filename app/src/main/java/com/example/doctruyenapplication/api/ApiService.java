@@ -64,4 +64,6 @@ public interface ApiService {
     Call<Chapter> putChapter(@Body Chapter chapter);
     @DELETE("chapters/{id}")
     Call<Void> deleteChapter(@Path("id") int id);
+    @DELETE("readHistory/{readHistoryId}")
+    Call<Void> deleteReadHistory(@Path("readHistoryId") int readHistoryId);
 }
